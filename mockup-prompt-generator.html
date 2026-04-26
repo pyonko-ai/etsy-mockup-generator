@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup Prompt Generator | Etsy向けモックアッププロンプト生成ツール</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf8f4; --white: #ffffff; --text: #2c2520; --text-sub: #7a6e68;
+    --text-hint: #b0a89f; --border: #e8e2db; --accent: #c9a882;
+    --accent-light: #f5ede0; --accent-dark: #9e7d55;
+    --active-bg: #fdf6ee; --active-border: #c9a882; --active-text: #7a5c30;
+    --success: #6b9e7a; --radius: 999px; --rc: 16px; --rm: 10px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; padding: 2rem 1rem 4rem; }
+  header { text-align: center; margin-bottom: 2rem; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1.2; margin-bottom: 0.4rem; }
+  header p { font-size: 13px; color: var(--text-sub); }
+  .badge { display: inline-block; background: var(--accent-light); color: var(--accent-dark); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius); margin-bottom: 0.8rem; }
+  .container { max-width: 740px; margin: 0 auto; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--rc); padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 10px; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { padding: 6px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--white); color: var(--text-sub); font-family: 'DM Sans', sans-serif; font-size: 12.5px; cursor: pointer; transition: all 0.12s; user-select: none; }
+  .chip:hover { border-color: var(--accent); color: var(--text); background: var(--accent-light); }
+  .chip.active { background: var(--active-bg); border-color: var(--active-border); color: var(--active-text); font-weight: 500; }
+  .chip.cat { font-weight: 500; background: var(--cream); font-size: 11px; letter-spacing: 0.03em; cursor: default; border-style: dashed; color: var(--text-hint); }
+  .chip.cat:hover { background: var(--cream); border-color: var(--border); color: var(--text-hint); }
+  .tip { font-size: 11px; color: var(--text-hint); margin-top: 7px; }
+  .output-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--rc); padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
+  .output-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-dark); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .output-label::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .output-text { font-size: 12.5px; line-height: 1.85; color: var(--text); background: var(--cream); border: 1px solid var(--border); border-radius: var(--rm); padding: 1rem 1.25rem; min-height: 100px; white-space: pre-wrap; word-break: break-word; margin-bottom: 1rem; }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { padding: 9px 22px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.12s; border: 1px solid var(--border); background: var(--white); color: var(--text); }
+  .btn:hover { background: var(--cream); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .btn.success { background: var(--success); border-color: var(--success); color: white; }
+  footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text-hint); }
+  @media (max-width: 480px) { .card, .output-card { padding: 1rem; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="badge">2026 Etsy Trends 対応</div>
+    <h1>Mockup Prompt Generator</h1>
+    <p>選択するだけでGemini用モックアッププロンプトが完成します</p>
+  </header>
+
+  <div class="card">
+    <div class="section-label">商品タイプ</div>
+    <div class="chip-group" id="type-group">
+      <span class="chip active" data-val="thank you gift tag">Thank you タグ</span>
+      <span class="chip" data-val="birthday party invitation card">インビテーション</span>
+      <span class="chip" data-val="birthday banner pennant garland">バナー</span>
+      <span class="chip" data-val="cupcake topper">カップケーキトッパー</span>
+      <span class="chip" data-val="favor bag tag">ファーバーバッグタグ</span>
+      <span class="chip" data-val="table number card">テーブルナンバー</span>
+      <span class="chip" data-val="food label tent card">フードラベル</span>
+      <span class="chip" data-val="water bottle label">ウォーターボトルラベル</span>
+      <span class="chip" data-val="party sign poster">パーティーサイン</span>
+      <span class="chip" data-val="milestone card">マイルストーンカード</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">テーマ（2026年トレンド網羅）</div>
+    <div class="chip-group" id="theme-group">
+      <span class="chip cat">🇺🇸 愛国・季節</span>
+      <span class="chip active" data-val="patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars">愛国・アメリカン</span>
+      <span class="chip" data-val="4th of July red white blue stars and stripes patriotic summer celebration">4th of July</span>
+      <span class="chip" data-val="Red White and TWO patriotic second birthday with American flags star confetti and festive summer decor">Red White &amp; TWO</span>
+
+      <span class="chip cat">🧜 ファンタジー・魔法</span>
+      <span class="chip" data-val="mermaid under the sea with seashells starfish pearls pastel purple teal and coral tones">マーメイド</span>
+      <span class="chip" data-val="unicorn with pastel rainbow glitter holographic details and magical gold accents">ユニコーン</span>
+      <span class="chip" data-val="princess with gold tiara florals elegant pink ivory and lavender tones">プリンセス</span>
+      <span class="chip" data-val="fairy tale forest with magical fairies enchanted mushrooms and whimsical pastel florals">フェアリー</span>
+      <span class="chip" data-val="outer space galaxy with planets rockets stars and deep navy and gold tones">宇宙・ギャラクシー</span>
+
+      <span class="chip cat">🌸 フローラル・ナチュラル</span>
+      <span class="chip" data-val="floral garden party with soft pink roses peonies greenery and pastel tones">フローラルガーデン</span>
+      <span class="chip" data-val="sunshine and rainbow with soft neutral pastel tones cheerful sun illustrations and rainbows">サンシャイン・レインボー</span>
+      <span class="chip" data-val="boho wildflower with pampas grass dried florals macrame and earthy neutral tones">ボーホー・ワイルドフラワー</span>
+      <span class="chip" data-val="strawberry garden with bright red strawberries pink florals and green leaves on white background">ストロベリー</span>
+      <span class="chip" data-val="lemon citrus Amalfi coastal with bright yellow lemons blue and white Mediterranean tones">レモン・アマルフィ</span>
+      <span class="chip" data-val="tropical fruit with pineapple watermelon and bright cheerful summer colors">トロピカルフルーツ</span>
+
+      <span class="chip cat">🍵 エレガント・おしゃれ</span>
+      <span class="chip" data-val="tea party with roses stacked teacups macarons gold butterfly details and pink pastel tones">ティーパーティー</span>
+      <span class="chip" data-val="coquette bow with soft pink satin ribbons bows pastel florals and romantic feminine details">コケット・リボン</span>
+      <span class="chip" data-val="preppy classic with stripes plaids teddy bears soft neutral colors and vintage typography">プレッピー</span>
+      <span class="chip" data-val="ballerina ballet with pink tutu ribbons ballet slippers and elegant pastel tones">バレリーナ</span>
+
+      <span class="chip cat">🦕 アドベンチャー</span>
+      <span class="chip" data-val="dinosaur with colorful dinos fossil details jungle greenery and earthy tones">ダイナソー</span>
+      <span class="chip" data-val="jungle safari with tropical leaves exotic animals and rich earthy green and brown tones">ジャングル・サファリ</span>
+      <span class="chip" data-val="camping adventure with campfire lanterns pine trees and rustic earthy outdoor tones">キャンプ・アウトドア</span>
+      <span class="chip" data-val="construction trucks with yellow dump trucks hard hats tools and bold orange and black tones">建設・トラック</span>
+      <span class="chip" data-val="pirate adventure with treasure maps ships anchors and navy gold and red tones">パイレーツ</span>
+      <span class="chip" data-val="superhero with bold cape shield lightning bolt and primary color tones">スーパーヒーロー</span>
+
+      <span class="chip cat">🐰 動物・キャラクター</span>
+      <span class="chip" data-val="Peter Rabbit with carrots garden vegetables soft pastel blue green and earthy tones">ピーターラビット</span>
+      <span class="chip" data-val="Winnie the Pooh with honey pots yellow bees soft woodland and gentle pastel tones">くまのプーさん</span>
+      <span class="chip" data-val="teddy bear with soft plush bears pastel neutral cream and sage green cozy tones">テディベア</span>
+      <span class="chip" data-val="farm animals with cows pigs chickens and red barn rustic country tones">ファームアニマル</span>
+      <span class="chip" data-val="ocean sea life with whales turtles fish and soft blue teal aqua tones">海の生き物</span>
+      <span class="chip" data-val="silly goose with soft neutral cream beige sage green and dusty blue storybook tones">シリーグース</span>
+
+      <span class="chip cat">👶 ベビー・ジェンダー</span>
+      <span class="chip" data-val="gender neutral baby shower with soft sage green cream and warm beige minimal elegant tones">ジェンダーニュートラル</span>
+      <span class="chip" data-val="girl baby shower with soft pink blush gold floral details and elegant feminine tones">ガールベビーシャワー</span>
+      <span class="chip" data-val="boy baby shower with soft blue navy star moon and gentle classic tones">ボーイベビーシャワー</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">構図</div>
+    <div class="chip-group" id="angle-group">
+      <span class="chip active" data-val="attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible">ギフトバッグ</span>
+      <span class="chip" data-val="placed on a neatly kraft paper wrapped gift box slightly angled tied with twine from a slight top-down angle">クラフトボックス</span>
+      <span class="chip" data-val="leaning against a white gift box on a styled table facing directly forward">立てかけ</span>
+      <span class="chip" data-val="flat lay on a natural woven rattan tray slightly angled facing up from above">ラタントレイ平置き</span>
+      <span class="chip" data-val="hung on a clean white wall facing forward draping naturally shot from a front angle">壁掛け</span>
+      <span class="chip" data-val="held gently in two hands with soft natural nails facing the camera">手持ち</span>
+      <span class="chip" data-val="displayed in a light wood frame leaning against a white wall">フレーム飾り</span>
+      <span class="chip" data-val="laid flat on a table as a flat lay top-down shot with props arranged around it">フラットレイ真上</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">背景・サーフェス</div>
+    <div class="chip-group" id="bg-group">
+      <span class="chip active" data-val="bright clean white surface">白・クリーン</span>
+      <span class="chip" data-val="warm light natural wood table">ライト木目</span>
+      <span class="chip" data-val="natural woven rattan surface">ラタン</span>
+      <span class="chip" data-val="soft linen fabric surface">リネン</span>
+      <span class="chip" data-val="white marble surface">白大理石</span>
+      <span class="chip" data-val="soft blurred festive party background with balloons and decorations">パーティー背景</span>
+      <span class="chip" data-val="cozy indoor home setting with soft neutral tones">ホームインテリア</span>
+      <span class="chip" data-val="bright outdoor garden setting with soft green bokeh background">アウトドア・ガーデン</span>
+      <span class="chip" data-val="dark moody deep navy or black elegant background">ダーク・ムーディー</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">小物（複数選択可）</div>
+    <div class="chip-group" id="prop-group">
+      <span class="chip cat">🇺🇸 愛国テーマ</span>
+      <span class="chip active" data-val="a small American flag pick">星条旗ピック</span>
+      <span class="chip" data-val="red and blue star-shaped confetti">星コンフェッティ</span>
+      <span class="chip" data-val="one small red balloon slightly blurred">赤い風船</span>
+
+      <span class="chip cat">🌸 ナチュラル</span>
+      <span class="chip" data-val="fresh eucalyptus sprigs">ユーカリ</span>
+      <span class="chip" data-val="white peonies or roses">白いピオニー・バラ</span>
+      <span class="chip" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
+      <span class="chip" data-val="small wildflowers and greenery sprigs">野の花・グリーン</span>
+      <span class="chip" data-val="fresh lemon slices and green leaves">レモンスライス</span>
+
+      <span class="chip cat">🎀 エレガント</span>
+      <span class="chip" data-val="soft pink satin ribbon bow">ピンクリボン</span>
+      <span class="chip" data-val="small pearl beads scattered">パールビーズ</span>
+      <span class="chip" data-val="gold confetti sprinkles">ゴールドコンフェッティ</span>
+      <span class="chip" data-val="small vintage teacup and saucer">ミニティーカップ</span>
+      <span class="chip" data-val="pastel macarons">マカロン</span>
+
+      <span class="chip cat">🎈 パーティー</span>
+      <span class="chip" data-val="white macarons">白いマカロン</span>
+      <span class="chip" data-val="small pastel balloons slightly blurred">パステル風船</span>
+      <span class="chip" data-val="pastel ribbon and small gift boxes">リボン・小箱</span>
+      <span class="chip" data-val="star-shaped sugar cookies">スターシュガークッキー</span>
+      <span class="chip" data-val="small candles">小さなキャンドル</span>
+
+      <span class="chip cat">🌊 テーマ別</span>
+      <span class="chip" data-val="small seashells and pearl beads">貝殻・パール</span>
+      <span class="chip" data-val="tiny dinosaur figurine">ミニ恐竜フィギュア</span>
+      <span class="chip" data-val="small woodland animal figurines">森の動物フィギュア</span>
+      <span class="chip" data-val="tropical green leaves">トロピカルリーフ</span>
+      <span class="chip" data-val="small gold stars and moon">ゴールド星・月</span>
+    </div>
+    <p class="tip">複数タップで選択できます</p>
+  </div>
+
+  <div class="card">
+    <div class="section-label">ライティング</div>
+    <div class="chip-group" id="light-group">
+      <span class="chip active" data-val="bright natural side lighting on a sunny day">明るい自然光サイド</span>
+      <span class="chip" data-val="warm golden soft natural side light creating a cozy elegant atmosphere">ウォームゴールド</span>
+      <span class="chip" data-val="soft diffused bright overhead natural light">ソフト拡散光</span>
+      <span class="chip" data-val="moody low-key soft side lighting with gentle shadows">ムーディー・ソフト</span>
+    </div>
+  </div>
+
+  <div class="output-card">
+    <div class="output-label">生成プロンプト（Gemini用）</div>
+    <div class="output-text" id="output">上の選択肢をタップするとプロンプトが自動生成されます</div>
+    <div class="btn-row">
+      <button class="btn primary" id="copy-btn" onclick="copyPrompt()">コピーする</button>
+      <button class="btn" onclick="resetAll()">リセット</button>
+    </div>
+  </div>
+
+  <footer>Mockup Prompt Generator &nbsp;·&nbsp; 2026 Etsy Trends 対応 &nbsp;·&nbsp; Gemini用</footer>
+</div>
+
+<script>
+const state = {
+  type: 'thank you gift tag',
+  theme: 'patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars',
+  angle: "attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible",
+  bg: 'bright clean white surface',
+  props: ['a small American flag pick'],
+  light: 'bright natural side lighting on a sunny day'
+};
+
+function setupSingle(id, key) {
+  document.getElementById(id).querySelectorAll('.chip:not(.cat)').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.getElementById(id).querySelectorAll('.chip:not(.cat)').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      state[key] = chip.dataset.val;
+      generate();
+    });
+  });
+}
+
+function setupMulti(id, key) {
+  document.getElementById(id).querySelectorAll('.chip:not(.cat)').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('active');
+      state[key] = Array.from(document.getElementById(id).querySelectorAll('.chip.active:not(.cat)')).map(c => c.dataset.val);
+      generate();
+    });
+  });
+}
+
+setupSingle('type-group', 'type');
+setupSingle('theme-group', 'theme');
+setupSingle('angle-group', 'angle');
+setupSingle('bg-group', 'bg');
+setupMulti('prop-group', 'props');
+setupSingle('light-group', 'light');
+
+function generate() {
+  const props = state.props.length > 0 ? state.props.join(', ') : 'minimal props only';
+  document.getElementById('output').textContent =
+`High-quality professional lifestyle photo mockup of a ${state.type} ${state.angle}. The ${state.type} is the clear focal point of the image, rendered with sharp crisp detail. Subtle paper texture visible on the surface. Natural soft shadow beneath. Matte finish, not glossy. Realistic and tactile aesthetic, not AI-looking.
+
+Theme: ${state.theme}.
+
+Minimal props arranged nearby: ${props}.
+
+Background: soft-focus ${state.bg}. ${state.light}. Square composition 1:1. Photorealistic style.`;
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'コピーしました！';
+    btn.classList.replace('primary', 'success');
+    setTimeout(() => { btn.textContent = 'コピーする'; btn.classList.replace('success', 'primary'); }, 2000);
+  });
+}
+
+function resetAll() {
+  document.querySelectorAll('.chip:not(.cat)').forEach(c => c.classList.remove('active'));
+  ['type-group','theme-group','angle-group','bg-group','prop-group','light-group'].forEach(id => {
+    document.querySelector('#' + id + ' .chip:not(.cat)').classList.add('active');
+  });
+  state.type = 'thank you gift tag';
+  state.theme = 'patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars';
+  state.angle = "attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible";
+  state.bg = 'bright clean white surface';
+  state.props = ['a small American flag pick'];
+  state.light = 'bright natural side lighting on a sunny day';
+  generate();
+}
+
+generate();
+</script>
+</body>
+</html>
