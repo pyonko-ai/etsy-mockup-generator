@@ -116,6 +116,41 @@
       <span class="chip" data-val="gender neutral baby shower with soft sage green cream and warm beige minimal elegant tones">ジェンダーニュートラル</span>
       <span class="chip" data-val="girl baby shower with soft pink blush gold floral details and elegant feminine tones">ガールベビーシャワー</span>
       <span class="chip" data-val="boy baby shower with soft blue navy star moon and gentle classic tones">ボーイベビーシャワー</span>
+
+      <span class="chip cat">🎂 誕生日・数字</span>
+      <span class="chip" data-val="first birthday ONE with soft boho florals pampas grass neutral cream and gold tones">ONE（1歳）</span>
+      <span class="chip" data-val="second birthday TWO with playful colorful balloons confetti and bright cheerful tones">TWO（2歳）</span>
+      <span class="chip" data-val="third birthday THREE with rainbow pastel colors stars and whimsical fun details">THREE（3歳）</span>
+      <span class="chip" data-val="fourth birthday FOUR with bright primary colors superhero stars and bold playful tones">FOUR（4歳）</span>
+      <span class="chip" data-val="fifth birthday FIVE with golden star confetti cake and festive warm celebration tones">FIVE（5歳）</span>
+      <span class="chip" data-val="sweet sixteen birthday with elegant gold rose pink florals script typography and glamorous tones">Sweet 16</span>
+      <span class="chip" data-val="milestone 30th birthday with black gold elegant modern typography and sophisticated tones">30th誕生日</span>
+      <span class="chip" data-val="milestone 40th birthday with chic black and gold glam confetti and elegant celebration tones">40th誕生日</span>
+      <span class="chip" data-val="milestone 50th birthday with gold silver elegant floral script and timeless classic tones">50th誕生日</span>
+
+      <span class="chip cat">🎄 季節・ホリデー</span>
+      <span class="chip" data-val="Christmas with classic red green gold holly berries plaid ribbon pine cones and warm festive tones">クリスマス（クラシック）</span>
+      <span class="chip" data-val="Christmas with soft neutral white silver sage green eucalyptus and modern minimal Scandinavian tones">クリスマス（モダン）</span>
+      <span class="chip" data-val="Christmas with pink blush gold snowflakes glitter and feminine romantic holiday tones">クリスマス（ピンク）</span>
+      <span class="chip" data-val="Halloween with classic orange black spooky pumpkins bats ghosts spiders and jack-o-lantern tones">ハロウィン（スパンキー）</span>
+      <span class="chip" data-val="Halloween with soft pastel pink purple cute ghost pumpkin and whimsical friendly tones">ハロウィン（かわいい）</span>
+      <span class="chip" data-val="Easter with soft pastel pink lavender mint bunny chick spring flowers and gentle cheerful tones">イースター</span>
+      <span class="chip" data-val="Valentine's Day with red pink hearts roses romantic script and sweet love tones">バレンタイン</span>
+      <span class="chip" data-val="St. Patrick's Day with green shamrocks gold coins rainbow and festive Irish celebration tones">セントパトリック</span>
+
+      <span class="chip cat">🍂 秋・感謝祭</span>
+      <span class="chip" data-val="Thanksgiving with warm orange burgundy gold autumn leaves pumpkins and rustic harvest tones">サンクスギビング（定番）</span>
+      <span class="chip" data-val="fall autumn harvest with pumpkins sunflowers dried botanicals and warm terracotta rust and sage tones">秋・ハーベスト</span>
+      <span class="chip" data-val="Little Pumpkin first birthday with orange pumpkin patch autumn leaves and warm earthy fall tones">リトルパンプキン</span>
+      <span class="chip" data-val="fall boho with dried pampas grass warm neutral tones terracotta rust and earthy botanical details">秋ボーホー</span>
+
+      <span class="chip cat">💒 ウェディング・ブライダル</span>
+      <span class="chip" data-val="elegant wedding with white ivory gold floral greenery script typography and timeless romantic tones">エレガントウェディング</span>
+      <span class="chip" data-val="boho wedding with dried florals pampas grass macrame earthy neutral and romantic rustic tones">ボーホーウェディング</span>
+      <span class="chip" data-val="garden wedding with soft blush pink roses peonies greenery and romantic floral tones">ガーデンウェディング</span>
+      <span class="chip" data-val="bridal shower with elegant white blush gold floral tea party details and feminine romantic tones">ブライダルシャワー</span>
+      <span class="chip" data-val="bachelorette party with fun bold pink gold champagne confetti and celebration party tones">バチェロレッテパーティー</span>
+      <span class="chip" data-val="minimalist modern wedding with clean white black simple typography and sophisticated elegant tones">ミニマルウェディング</span>
     </div>
   </div>
 
@@ -250,9 +285,13 @@ setupSingle('light-group', 'light');
 function generate() {
   const props = state.props.length > 0 ? state.props.join(', ') : 'minimal props only';
   document.getElementById('output').textContent =
-`High-quality professional lifestyle photo mockup of a ${state.type} ${state.angle}. The ${state.type} is the clear focal point of the image, rendered with sharp crisp detail. Subtle paper texture visible on the surface. Natural soft shadow beneath. Matte finish, not glossy. Realistic and tactile aesthetic, not AI-looking.
+`⚠️ MOST IMPORTANT INSTRUCTION: The attached image is the MASTER DESIGN. You MUST reproduce it with 100% faithful accuracy. Do NOT change, reinterpret, or "improve" any design element. Preserve exactly: all colors, fonts, typography, layout, illustrations, patterns, decorative elements, and text content shown in the attached image. If you cannot reproduce it faithfully, output nothing.
 
-Theme: ${state.theme}.
+High-quality professional lifestyle photo mockup of a ${state.type} ${state.angle}. The ${state.type} is the clear focal point of the image, rendered with sharp crisp detail. Subtle paper texture visible on the surface. Natural soft shadow beneath. Matte finish, not glossy. Realistic and tactile aesthetic, not AI-looking.
+
+The design printed on the ${state.type} must exactly match the attached image — same colors, same fonts, same layout, same illustrations. Do not alter the design in any way.
+
+Theme context for props/background only: ${state.theme}.
 
 Minimal props arranged nearby: ${props}.
 
