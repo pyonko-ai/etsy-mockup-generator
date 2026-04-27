@@ -155,6 +155,12 @@
   </div>
 
   <div class="card">
+    <div class="section-label">商品サイズ（任意）</div>
+    <input type="text" id="size-input" placeholder="例：5x7 inch、A5、4x6 inch、正方形" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--white);box-sizing:border-box;" oninput="state.size=this.value;generate();">
+    <p class="tip">入力するとプロンプトにサイズが反映されます</p>
+  </div>
+
+  <div class="card">
     <div class="section-label">構図</div>
     <div class="chip-group" id="angle-group">
       <span class="chip active" data-val="attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible">ギフトバッグ</span>
@@ -165,6 +171,10 @@
       <span class="chip" data-val="held gently in two hands with soft natural nails facing the camera">手持ち</span>
       <span class="chip" data-val="displayed in a light wood frame leaning against a white wall">フレーム飾り</span>
       <span class="chip" data-val="laid flat on a table as a flat lay top-down shot with props arranged around it">フラットレイ真上</span>
+      <span class="chip" data-val="hanging from a natural twine string using small wooden clothespin clips, displayed side by side slightly angled naturally, twine stretched horizontally across upper frame, cards hanging down naturally in portrait orientation">麻紐＋クリップ（1枚）</span>
+      <span class="chip" data-val="two cards displayed side by side hanging from natural twine with small wooden clips, slightly overlapping, relaxed lifestyle composition, portrait orientation">麻紐＋クリップ（2枚並び）</span>
+      <span class="chip" data-val="leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind, card facing directly forward, no props, card is the only subject">壁＋植物影（主役のみ）</span>
+      <span class="chip" data-val="placed slightly angled on a clean surface leaning against a soft wall with dappled botanical leaf shadow patterns across the background, portrait orientation facing camera">壁＋影・テーブル</span>
     </div>
   </div>
 
@@ -180,6 +190,9 @@
       <span class="chip" data-val="cozy indoor home setting with soft neutral tones">ホームインテリア</span>
       <span class="chip" data-val="bright outdoor garden setting with soft green bokeh background">アウトドア・ガーデン</span>
       <span class="chip" data-val="dark moody deep navy or black elegant background">ダーク・ムーディー</span>
+      <span class="chip" data-val="soft warm white or cream wall with beautiful dappled botanical leaf and branch shadow patterns cast across the surface, ultra clean and minimal">壁＋植物影（ミニマル）</span>
+      <span class="chip" data-val="warm beige or greige wall with soft organic leaf shadow overlay, editorial lifestyle feel">壁＋影（ベージュ）</span>
+      <span class="chip" data-val="clean white surface with soft window light and subtle leaf shadow falling across the background">白テーブル＋窓影</span>
     </div>
   </div>
 
@@ -229,6 +242,8 @@
       <span class="chip" data-val="warm golden soft natural side light creating a cozy elegant atmosphere">ウォームゴールド</span>
       <span class="chip" data-val="soft diffused bright overhead natural light">ソフト拡散光</span>
       <span class="chip" data-val="moody low-key soft side lighting with gentle shadows">ムーディー・ソフト</span>
+      <span class="chip" data-val="dramatic natural window side light casting beautiful sharp botanical leaf and branch shadows across the background wall, high-end editorial feel">植物影・ドラマチック光</span>
+      <span class="chip" data-val="soft morning light from the side with gentle organic shadow patterns on the wall behind, airy and fresh">朝の柔らか光＋影</span>
     </div>
   </div>
 
@@ -251,7 +266,8 @@ const state = {
   angle: "attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible",
   bg: 'bright clean white surface',
   props: ['a small American flag pick'],
-  light: 'bright natural side lighting on a sunny day'
+  light: 'bright natural side lighting on a sunny day',
+  size: ''
 };
 
 function setupSingle(id, key) {
@@ -284,10 +300,11 @@ setupSingle('light-group', 'light');
 
 function generate() {
   const props = state.props.length > 0 ? state.props.join(', ') : 'minimal props only';
+  const sizeStr = state.size ? ` (${state.size})` : '';
   document.getElementById('output').textContent =
 `⚠️ MOST IMPORTANT INSTRUCTION: The attached image is the MASTER DESIGN. You MUST reproduce it with 100% faithful accuracy. Do NOT change, reinterpret, or "improve" any design element. Preserve exactly: all colors, fonts, typography, layout, illustrations, patterns, decorative elements, and text content shown in the attached image. If you cannot reproduce it faithfully, output nothing.
 
-High-quality professional lifestyle photo mockup of a ${state.type} ${state.angle}. The ${state.type} is the clear focal point of the image, rendered with sharp crisp detail. Subtle paper texture visible on the surface. Natural soft shadow beneath. Matte finish, not glossy. Realistic and tactile aesthetic, not AI-looking.
+High-quality professional lifestyle photo mockup of a ${state.type}${sizeStr} ${state.angle}. The ${state.type} is the clear focal point of the image, rendered with sharp crisp detail. Subtle paper texture visible on the surface. Natural soft shadow beneath. Matte finish, not glossy. Realistic and tactile aesthetic, not AI-looking.
 
 The design printed on the ${state.type} must exactly match the attached image — same colors, same fonts, same layout, same illustrations. Do not alter the design in any way.
 
@@ -295,7 +312,7 @@ Theme context for props/background only: ${state.theme}.
 
 Minimal props arranged nearby: ${props}.
 
-Background: soft-focus ${state.bg}. ${state.light}. Square composition 1:1. Photorealistic style.`;
+Background: soft-focus ${state.bg}. ${state.light}. Square composition 1:1. Photorealistic style. Shot with a DSLR camera, shallow depth of field, ultra-realistic, high resolution, soft color grading.`;
 }
 
 function copyPrompt() {
@@ -315,6 +332,9 @@ function resetAll() {
   state.type = 'thank you gift tag';
   state.theme = 'patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars';
   state.angle = "attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible";
+  state.size = '';
+  const sizeInput = document.getElementById('size-input');
+  if (sizeInput) sizeInput.value = '';
   state.bg = 'bright clean white surface';
   state.props = ['a small American flag pick'];
   state.light = 'bright natural side lighting on a sunny day';
