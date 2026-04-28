@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mockup Prompt Generator | Etsy向けモックアッププロンプト生成ツール</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -14,31 +14,54 @@
     --active-bg: #fdf6ee; --active-border: #c9a882; --active-text: #7a5c30;
     --success: #6b9e7a; --radius: 999px; --rc: 16px; --rm: 10px;
   }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; padding: 2rem 1rem 4rem; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(150deg, #fff0f3 0%, #fdf6f8 40%, #fff8fa 70%, #ffffff 100%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
   header { text-align: center; margin-bottom: 2rem; }
-  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1.2; margin-bottom: 0.4rem; }
+  header h1 { font-family: 'Kaisei Decol', serif; font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.2; margin-bottom: 0.5rem; color: #8a3a50; }
   header p { font-size: 13px; color: var(--text-sub); }
-  .badge { display: inline-block; background: var(--accent-light); color: var(--accent-dark); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius); margin-bottom: 0.8rem; }
+  .badge { display: inline-block; background: #c4808f; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: var(--radius); margin-bottom: 0.8rem; }
   .container { max-width: 740px; margin: 0 auto; }
-  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--rc); padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
-  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 10px; }
-  .chip-group { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip { padding: 6px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--white); color: var(--text-sub); font-family: 'DM Sans', sans-serif; font-size: 12.5px; cursor: pointer; transition: all 0.12s; user-select: none; }
+  .card { background: var(--white); border: 1.5px solid #ecd8dc; border-radius: var(--rc); padding: 1.4rem 1.6rem; margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(196,128,143,0.07); }
+  .section-label { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip { padding: 9px 18px; border-radius: var(--radius); border: 1.5px solid var(--border); background: var(--white); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13.5px; cursor: pointer; transition: all 0.15s; user-select: none; }
   .chip:hover { border-color: var(--accent); color: var(--text); background: var(--accent-light); }
-  .chip.active { background: var(--active-bg); border-color: var(--active-border); color: var(--active-text); font-weight: 500; }
-  .chip.cat { font-weight: 500; background: var(--cream); font-size: 11px; letter-spacing: 0.03em; cursor: default; border-style: dashed; color: var(--text-hint); }
-  .chip.cat:hover { background: var(--cream); border-color: var(--border); color: var(--text-hint); }
+  .chip.active { background: #c4808f; border-color: #c4808f; color: #fff; font-weight: 700; box-shadow: 0 2px 8px rgba(196,128,143,0.3); }
+  .chip.cat {
+    font-weight: 600;
+    background: #c4808f;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: default;
+    border-color: #c4808f;
+    border-radius: 6px;
+    padding: 4px 12px;
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 2px;
+  }
+  .chip.cat:first-child { margin-top: 0; }
+  .chip.cat:hover { background: #c4808f; border-color: #c4808f; color: #fff; }
   .tip { font-size: 11px; color: var(--text-hint); margin-top: 7px; }
-  .output-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--rc); padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
+  .output-card { background: var(--white); border: 1.5px solid #ecd8dc; border-radius: var(--rc); padding: 1.4rem 1.6rem; margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(196,128,143,0.07); }
   .output-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-dark); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
   .output-label::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
   .output-text { font-size: 12.5px; line-height: 1.85; color: var(--text); background: var(--cream); border: 1px solid var(--border); border-radius: var(--rm); padding: 1rem 1.25rem; min-height: 100px; white-space: pre-wrap; word-break: break-word; margin-bottom: 1rem; }
   .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn { padding: 9px 22px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.12s; border: 1px solid var(--border); background: var(--white); color: var(--text); }
+  .btn { padding: 12px 26px; border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; border: 1.5px solid var(--border); background: var(--white); color: var(--text); }
   .btn:hover { background: var(--cream); }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: white; }
-  .btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .btn.primary { background: #c4808f; border-color: #c4808f; color: white; box-shadow: 0 3px 10px rgba(196,128,143,0.35); }
+  .btn.primary:hover { background: #b06070; border-color: #b06070; }
   .btn.success { background: var(--success); border-color: var(--success); color: white; }
+  .hero-img { width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto 1rem; border-radius: 16px; }
   footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text-hint); }
   @media (max-width: 480px) { .card, .output-card { padding: 1rem; } }
 </style>
@@ -46,9 +69,9 @@
 <body>
 <div class="container">
   <header>
+    <!-- HERO IMAGE: Canva画像ができたらここに <img class="hero-img" src="hero.png" alt=""> を追加 -->
     <div class="badge">2026 Etsy Trends 対応</div>
-    <h1>Mockup Prompt Generator</h1>
-    <p>選択するだけでGemini用モックアッププロンプトが完成します</p>
+    <p style="font-size:13px;color:#c48090;margin-top:4px;">選択するだけでGemini用モックアッププロンプトが完成します</p>
   </header>
 
   <div class="card">
@@ -70,19 +93,19 @@
   <div class="card">
     <div class="section-label">テーマ（2026年トレンド網羅）</div>
     <div class="chip-group" id="theme-group">
-      <span class="chip cat">🇺🇸 愛国・季節</span>
+      <span class="chip cat">🇺🇸 愛国・アメリカン</span>
       <span class="chip active" data-val="patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars">愛国・アメリカン</span>
       <span class="chip" data-val="4th of July red white blue stars and stripes patriotic summer celebration">4th of July</span>
       <span class="chip" data-val="Red White and TWO patriotic second birthday with American flags star confetti and festive summer decor">Red White &amp; TWO</span>
 
-      <span class="chip cat">🧜 ファンタジー・魔法</span>
+      <span class="chip cat">✨ ファンタジー・魔法</span>
       <span class="chip" data-val="mermaid under the sea with seashells starfish pearls pastel purple teal and coral tones">マーメイド</span>
       <span class="chip" data-val="unicorn with pastel rainbow glitter holographic details and magical gold accents">ユニコーン</span>
       <span class="chip" data-val="princess with gold tiara florals elegant pink ivory and lavender tones">プリンセス</span>
       <span class="chip" data-val="fairy tale forest with magical fairies enchanted mushrooms and whimsical pastel florals">フェアリー</span>
       <span class="chip" data-val="outer space galaxy with planets rockets stars and deep navy and gold tones">宇宙・ギャラクシー</span>
 
-      <span class="chip cat">🌸 フローラル・ナチュラル</span>
+      <span class="chip cat">🌸 フローラル・自然</span>
       <span class="chip" data-val="floral garden party with soft pink roses peonies greenery and pastel tones">フローラルガーデン</span>
       <span class="chip" data-val="sunshine and rainbow with soft neutral pastel tones cheerful sun illustrations and rainbows">サンシャイン・レインボー</span>
       <span class="chip" data-val="boho wildflower with pampas grass dried florals macrame and earthy neutral tones">ボーホー・ワイルドフラワー</span>
@@ -90,13 +113,13 @@
       <span class="chip" data-val="lemon citrus Amalfi coastal with bright yellow lemons blue and white Mediterranean tones">レモン・アマルフィ</span>
       <span class="chip" data-val="tropical fruit with pineapple watermelon and bright cheerful summer colors">トロピカルフルーツ</span>
 
-      <span class="chip cat">🍵 エレガント・おしゃれ</span>
+      <span class="chip cat">🎀 エレガント・ガーリー</span>
       <span class="chip" data-val="tea party with roses stacked teacups macarons gold butterfly details and pink pastel tones">ティーパーティー</span>
       <span class="chip" data-val="coquette bow with soft pink satin ribbons bows pastel florals and romantic feminine details">コケット・リボン</span>
       <span class="chip" data-val="preppy classic with stripes plaids teddy bears soft neutral colors and vintage typography">プレッピー</span>
       <span class="chip" data-val="ballerina ballet with pink tutu ribbons ballet slippers and elegant pastel tones">バレリーナ</span>
 
-      <span class="chip cat">🦕 アドベンチャー</span>
+      <span class="chip cat">🦕 アドベンチャー・キッズ</span>
       <span class="chip" data-val="dinosaur with colorful dinos fossil details jungle greenery and earthy tones">ダイナソー</span>
       <span class="chip" data-val="jungle safari with tropical leaves exotic animals and rich earthy green and brown tones">ジャングル・サファリ</span>
       <span class="chip" data-val="camping adventure with campfire lanterns pine trees and rustic earthy outdoor tones">キャンプ・アウトドア</span>
@@ -104,7 +127,7 @@
       <span class="chip" data-val="pirate adventure with treasure maps ships anchors and navy gold and red tones">パイレーツ</span>
       <span class="chip" data-val="superhero with bold cape shield lightning bolt and primary color tones">スーパーヒーロー</span>
 
-      <span class="chip cat">🐰 動物・キャラクター</span>
+      <span class="chip cat">🐾 動物・キャラクター</span>
       <span class="chip" data-val="Peter Rabbit with carrots garden vegetables soft pastel blue green and earthy tones">ピーターラビット</span>
       <span class="chip" data-val="Winnie the Pooh with honey pots yellow bees soft woodland and gentle pastel tones">くまのプーさん</span>
       <span class="chip" data-val="teddy bear with soft plush bears pastel neutral cream and sage green cozy tones">テディベア</span>
@@ -112,12 +135,12 @@
       <span class="chip" data-val="ocean sea life with whales turtles fish and soft blue teal aqua tones">海の生き物</span>
       <span class="chip" data-val="silly goose with soft neutral cream beige sage green and dusty blue storybook tones">シリーグース</span>
 
-      <span class="chip cat">👶 ベビー・ジェンダー</span>
+      <span class="chip cat">👶 ベビーシャワー</span>
       <span class="chip" data-val="gender neutral baby shower with soft sage green cream and warm beige minimal elegant tones">ジェンダーニュートラル</span>
       <span class="chip" data-val="girl baby shower with soft pink blush gold floral details and elegant feminine tones">ガールベビーシャワー</span>
       <span class="chip" data-val="boy baby shower with soft blue navy star moon and gentle classic tones">ボーイベビーシャワー</span>
 
-      <span class="chip cat">🎂 誕生日・数字</span>
+      <span class="chip cat">🎂 誕生日・バースデー</span>
       <span class="chip" data-val="first birthday ONE with soft boho florals pampas grass neutral cream and gold tones">ONE（1歳）</span>
       <span class="chip" data-val="second birthday TWO with playful colorful balloons confetti and bright cheerful tones">TWO（2歳）</span>
       <span class="chip" data-val="third birthday THREE with rainbow pastel colors stars and whimsical fun details">THREE（3歳）</span>
@@ -128,7 +151,7 @@
       <span class="chip" data-val="milestone 40th birthday with chic black and gold glam confetti and elegant celebration tones">40th誕生日</span>
       <span class="chip" data-val="milestone 50th birthday with gold silver elegant floral script and timeless classic tones">50th誕生日</span>
 
-      <span class="chip cat">🎄 季節・ホリデー</span>
+      <span class="chip cat">🎄 ホリデー・季節イベント</span>
       <span class="chip" data-val="Christmas with classic red green gold holly berries plaid ribbon pine cones and warm festive tones">クリスマス（クラシック）</span>
       <span class="chip" data-val="Christmas with soft neutral white silver sage green eucalyptus and modern minimal Scandinavian tones">クリスマス（モダン）</span>
       <span class="chip" data-val="Christmas with pink blush gold snowflakes glitter and feminine romantic holiday tones">クリスマス（ピンク）</span>
@@ -138,13 +161,13 @@
       <span class="chip" data-val="Valentine's Day with red pink hearts roses romantic script and sweet love tones">バレンタイン</span>
       <span class="chip" data-val="St. Patrick's Day with green shamrocks gold coins rainbow and festive Irish celebration tones">セントパトリック</span>
 
-      <span class="chip cat">🍂 秋・感謝祭</span>
+      <span class="chip cat">🍂 秋・サンクスギビング</span>
       <span class="chip" data-val="Thanksgiving with warm orange burgundy gold autumn leaves pumpkins and rustic harvest tones">サンクスギビング（定番）</span>
       <span class="chip" data-val="fall autumn harvest with pumpkins sunflowers dried botanicals and warm terracotta rust and sage tones">秋・ハーベスト</span>
       <span class="chip" data-val="Little Pumpkin first birthday with orange pumpkin patch autumn leaves and warm earthy fall tones">リトルパンプキン</span>
       <span class="chip" data-val="fall boho with dried pampas grass warm neutral tones terracotta rust and earthy botanical details">秋ボーホー</span>
 
-      <span class="chip cat">💒 ウェディング・ブライダル</span>
+      <span class="chip cat">💒 ウェディング</span>
       <span class="chip" data-val="elegant wedding with white ivory gold floral greenery script typography and timeless romantic tones">エレガントウェディング</span>
       <span class="chip" data-val="boho wedding with dried florals pampas grass macrame earthy neutral and romantic rustic tones">ボーホーウェディング</span>
       <span class="chip" data-val="garden wedding with soft blush pink roses peonies greenery and romantic floral tones">ガーデンウェディング</span>
@@ -156,35 +179,37 @@
 
   <div class="card">
     <div class="section-label">商品サイズ（任意）</div>
-    <input type="text" id="size-input" placeholder="例：5x7 inch、A5、4x6 inch、正方形" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--white);box-sizing:border-box;" oninput="state.size=this.value;generate();">
+    <input type="text" id="size-input" placeholder="例：5x7 inch、A5、4x6 inch、正方形" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);font-family:'Nunito',sans-serif;font-size:13px;color:var(--text);background:var(--white);box-sizing:border-box;" oninput="state.size=this.value;generate();">
     <p class="tip">入力するとプロンプトにサイズが反映されます</p>
   </div>
 
   <div class="card">
     <div class="section-label">構図</div>
     <div class="chip-group" id="angle-group">
-      <span class="chip active" data-val="attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible">ギフトバッグ</span>
+      <span class="chip" data-val="attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible">ギフトバッグ</span>
       <span class="chip" data-val="placed on a neatly kraft paper wrapped gift box slightly angled tied with twine from a slight top-down angle">クラフトボックス</span>
       <span class="chip" data-val="leaning against a white gift box on a styled table facing directly forward">立てかけ</span>
       <span class="chip" data-val="flat lay on a natural woven rattan tray slightly angled facing up from above">ラタントレイ平置き</span>
       <span class="chip" data-val="hung on a clean white wall facing forward draping naturally shot from a front angle">壁掛け</span>
-      <span class="chip" data-val="held gently in two hands with soft natural nails facing the camera">手持ち</span>
+      <span class="chip active" data-val="held gently in two hands with soft natural nails facing the camera">手持ち</span>
       <span class="chip" data-val="displayed in a light wood frame leaning against a white wall">フレーム飾り</span>
       <span class="chip" data-val="laid flat on a table as a flat lay top-down shot with props arranged around it">フラットレイ真上</span>
       <span class="chip" data-val="hanging from a natural twine string using small wooden clothespin clips, displayed side by side slightly angled naturally, twine stretched horizontally across upper frame, cards hanging down naturally in portrait orientation">麻紐＋クリップ（1枚）</span>
       <span class="chip" data-val="two cards displayed side by side hanging from natural twine with small wooden clips, slightly overlapping, relaxed lifestyle composition, portrait orientation">麻紐＋クリップ（2枚並び）</span>
       <span class="chip" data-val="leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind, card facing directly forward, no props, card is the only subject">壁＋植物影（主役のみ）</span>
       <span class="chip" data-val="placed slightly angled on a clean surface leaning against a soft wall with dappled botanical leaf shadow patterns across the background, portrait orientation facing camera">壁＋影・テーブル</span>
+      <span class="chip" data-val="flat lay on a soft linen surface placed beside a modern smartphone showing the same design on screen, top-down shot, minimal styling, lifestyle product mockup">📱 スマホ並べ（フラットレイ）</span>
+      <span class="chip" data-val="flat lay on a soft linen fabric surface placed next to a smartphone showing the digital version on screen, eucalyptus sprigs and dried flowers scattered nearby, top-down overhead shot">📱 スマホ＋ドライフラワー</span>
     </div>
   </div>
 
   <div class="card">
     <div class="section-label">背景・サーフェス</div>
     <div class="chip-group" id="bg-group">
-      <span class="chip active" data-val="bright clean white surface">白・クリーン</span>
+      <span class="chip" data-val="bright clean white surface">白・クリーン</span>
       <span class="chip" data-val="warm light natural wood table">ライト木目</span>
       <span class="chip" data-val="natural woven rattan surface">ラタン</span>
-      <span class="chip" data-val="soft linen fabric surface">リネン</span>
+      <span class="chip active" data-val="soft linen fabric surface">リネン</span>
       <span class="chip" data-val="white marble surface">白大理石</span>
       <span class="chip" data-val="soft blurred festive party background with balloons and decorations">パーティー背景</span>
       <span class="chip" data-val="cozy indoor home setting with soft neutral tones">ホームインテリア</span>
@@ -200,14 +225,14 @@
     <div class="section-label">小物（複数選択可）</div>
     <div class="chip-group" id="prop-group">
       <span class="chip cat">🇺🇸 愛国テーマ</span>
-      <span class="chip active" data-val="a small American flag pick">星条旗ピック</span>
+      <span class="chip" data-val="a small American flag pick">星条旗ピック</span>
       <span class="chip" data-val="red and blue star-shaped confetti">星コンフェッティ</span>
       <span class="chip" data-val="one small red balloon slightly blurred">赤い風船</span>
 
       <span class="chip cat">🌸 ナチュラル</span>
       <span class="chip" data-val="fresh eucalyptus sprigs">ユーカリ</span>
       <span class="chip" data-val="white peonies or roses">白いピオニー・バラ</span>
-      <span class="chip" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
+      <span class="chip active" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
       <span class="chip" data-val="small wildflowers and greenery sprigs">野の花・グリーン</span>
       <span class="chip" data-val="fresh lemon slices and green leaves">レモンスライス</span>
 
@@ -231,6 +256,12 @@
       <span class="chip" data-val="small woodland animal figurines">森の動物フィギュア</span>
       <span class="chip" data-val="tropical green leaves">トロピカルリーフ</span>
       <span class="chip" data-val="small gold stars and moon">ゴールド星・月</span>
+
+      <span class="chip cat">✉️ ウェディング・上品系</span>
+      <span class="chip" data-val="white envelope with elegant wax seal beside the card">封筒＋ワックスシール</span>
+      <span class="chip" data-val="large dried palm leaf or tropical leaf fanned out in the background">ドライパームリーフ</span>
+      <span class="chip" data-val="soft bokeh fairy lights glowing gently in the background">ボケたイルミネーション</span>
+      <span class="chip" data-val="white envelope slightly open with card tucked inside">封筒に差し込み</span>
     </div>
     <p class="tip">複数タップで選択できます</p>
   </div>
@@ -238,9 +269,9 @@
   <div class="card">
     <div class="section-label">ライティング</div>
     <div class="chip-group" id="light-group">
-      <span class="chip active" data-val="bright natural side lighting on a sunny day">明るい自然光サイド</span>
+      <span class="chip" data-val="bright natural side lighting on a sunny day">明るい自然光サイド</span>
       <span class="chip" data-val="warm golden soft natural side light creating a cozy elegant atmosphere">ウォームゴールド</span>
-      <span class="chip" data-val="soft diffused bright overhead natural light">ソフト拡散光</span>
+      <span class="chip active" data-val="soft diffused bright overhead natural light">ソフト拡散光</span>
       <span class="chip" data-val="moody low-key soft side lighting with gentle shadows">ムーディー・ソフト</span>
       <span class="chip" data-val="dramatic natural window side light casting beautiful sharp botanical leaf and branch shadows across the background wall, high-end editorial feel">植物影・ドラマチック光</span>
       <span class="chip" data-val="soft morning light from the side with gentle organic shadow patterns on the wall behind, airy and fresh">朝の柔らか光＋影</span>
@@ -263,10 +294,10 @@
 const state = {
   type: 'thank you gift tag',
   theme: 'patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars',
-  angle: "attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible",
-  bg: 'bright clean white surface',
-  props: ['a small American flag pick'],
-  light: 'bright natural side lighting on a sunny day',
+  angle: 'held gently in two hands with soft natural nails facing the camera',
+  bg: 'soft linen fabric surface',
+  props: ['delicate dried flowers and pampas grass'],
+  light: 'soft diffused bright overhead natural light',
   size: ''
 };
 
