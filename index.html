@@ -272,8 +272,56 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
     <p>選ぶだけでGemini用モックアッププロンプトが完成します ✨</p>
   </header>
 
+  <!-- モード選択 -->
+  <div id="mode-select" style="margin-bottom:1.5rem;">
+    <div class="section-title" style="margin-bottom:1rem;">どちらのモードで始めますか？</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="grid-card" onclick="setMode('auto')" style="border-color:#e8d8ec;">
+        <span class="grid-card-emoji">✨</span>
+        <div class="grid-card-title">おまかせモード</div>
+        <div class="grid-card-desc">キーワードを入力するだけ</div>
+      </div>
+      <div class="grid-card" onclick="setMode('custom')" style="border-color:#e8d8ec;">
+        <span class="grid-card-emoji">🎛️</span>
+        <div class="grid-card-title">カスタムモード</div>
+        <div class="grid-card-desc">ステップごとに細かく設定</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- おまかせモード -->
+  <div id="auto-mode" style="display:none;">
+    <div class="detail-card">
+      <div class="detail-label">✨ おまかせモード</div>
+      <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px;">商品とテーマをキーワードで入力してください</p>
+      <input type="text" class="size-input" id="auto-keyword" placeholder="例：ガーデンパーティー招待状、クリスマスサンキュータグ、マーメイド誕生日" style="margin-bottom:8px;">
+      <p class="tip">日本語でもOK！商品タイプ＋テーマを入力すると最適なプロンプトを生成します</p>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:0.5rem;">
+      <button class="nav-back" onclick="setMode(null)">← 戻る</button>
+      <button class="nav-next" onclick="generateAuto()">プロンプトを生成 ✨</button>
+    </div>
+
+    <div id="auto-output-wrap" style="display:none;margin-top:1.5rem;">
+      <div class="output-wrap">
+        <div class="output-label">生成プロンプト（Gemini用）</div>
+        <div class="output-text" id="auto-output"></div>
+        <div class="btn-row">
+          <button class="btn primary" id="auto-copy-btn" onclick="copyAutoPrompt()">コピーする</button>
+          <button class="btn" onclick="generateAuto()">別のパターンで生成</button>
+          <button class="btn" onclick="setMode('custom')">カスタムモードで細かく調整</button>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.7);border-radius:14px;padding:1rem 1.2rem;border:1.5px solid #f0d8e4;margin-top:0.5rem;">
+        <p style="font-size:12.5px;color:#7a6e68;line-height:1.8;">
+          💡 <strong>ヒント：</strong>一回で完璧な画像になることはまれです。「なんか違う」と感じたらカスタムモードで細かく調整してみてください😊
+        </p>
+      </div>
+    </div>
+  </div>
+
   <!-- ステップ表示 -->
-  <div class="steps">
+  <div class="steps" id="steps-bar" style="display:none;">
     <div class="step active" id="step1">
       <div class="step-num">1</div>
       <span>商品タイプ</span>
@@ -296,7 +344,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
   </div>
 
   <!-- 画面1：商品タイプ -->
-  <div class="screen active" id="screen1">
+  <div class="screen" id="screen1">
     <div class="section-title">何を作りますか？</div>
     <div class="card-grid" id="type-grid">
       <div class="grid-card" data-val="invitation card">
@@ -625,6 +673,125 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
 </div>
 
 <script>
+// モード切り替え
+function setMode(mode) {
+  document.getElementById('mode-select').style.display = mode === null ? 'block' : 'none';
+  document.getElementById('auto-mode').style.display = mode === 'auto' ? 'block' : 'none';
+  document.getElementById('steps-bar').style.display = mode === 'custom' ? 'flex' : 'none';
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  if (mode === 'custom') {
+    document.getElementById('screen1').classList.add('active');
+  }
+  document.getElementById('auto-output-wrap').style.display = 'none';
+}
+
+// おまかせ生成
+const autoPatterns = {
+  angles: [
+    'held gently in two hands with soft natural nails facing the camera',
+    'flat lay on a soft linen fabric surface with props arranged naturally around it, top-down shot',
+    'leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind',
+    'flat lay on an aged natural woven rattan tray with warm muted earthy tones, soft shadows cast across the woven texture',
+    'displayed upright on a wooden easel facing forward, elegant and refined presentation',
+  ],
+  bgs: [
+    'soft linen fabric surface',
+    'bright clean white surface',
+    'warm beige or greige wall with soft organic leaf shadow overlay',
+    'soft warm white or cream wall with beautiful dappled botanical leaf and branch shadow patterns',
+    'warm light natural wood table',
+  ],
+  props: [
+    'delicate dried flowers and pampas grass',
+    'fresh eucalyptus sprigs',
+    'white envelope with elegant wax seal beside the card',
+    'white peonies or roses',
+    'soft pink satin ribbon bow and pearl beads',
+  ],
+  lights: [
+    'soft diffused bright overhead natural light',
+    'dramatic natural window side light casting beautiful sharp botanical leaf and branch shadows across the background wall',
+    'warm golden soft natural side light creating a cozy elegant atmosphere',
+    'soft morning light from the side with gentle organic shadow patterns on the wall behind',
+  ]
+};
+
+function detectThemeAndType(keyword) {
+  const k = keyword.toLowerCase();
+  
+  // 商品タイプ検出
+  let type = 'invitation card';
+  if (k.includes('タグ') || k.includes('tag')) type = 'thank you gift tag';
+  else if (k.includes('バナー') || k.includes('banner')) type = 'party banner';
+  else if (k.includes('サイン') || k.includes('sign')) type = 'welcome sign';
+  else if (k.includes('トッパー') || k.includes('topper')) type = 'cupcake topper';
+  else if (k.includes('ベビー') || k.includes('baby shower')) type = 'baby shower card';
+  else if (k.includes('バースデー') || k.includes('誕生日') || k.includes('birthday')) type = 'birthday card';
+  else if (k.includes('マイルストーン') || k.includes('milestone')) type = 'milestone card';
+  else if (k.includes('ギフト') || k.includes('gift')) type = 'gift tag';
+
+  // テーマ検出
+  let theme = 'elegant floral with soft pastel tones and romantic botanical details';
+  if (k.includes('クリスマス') || k.includes('christmas')) theme = 'Christmas with classic red green gold holly berries plaid ribbon pine cones and warm festive tones';
+  else if (k.includes('ハロウィン') || k.includes('halloween')) theme = 'Halloween with soft pastel pink purple cute ghost pumpkin and whimsical friendly tones';
+  else if (k.includes('ウェディング') || k.includes('wedding')) theme = 'elegant wedding with white ivory gold floral greenery script typography and timeless romantic tones';
+  else if (k.includes('マーメイド') || k.includes('mermaid')) theme = 'mermaid under the sea with teal aqua purple iridescent scales bubbles starfish and ocean tones';
+  else if (k.includes('ユニコーン') || k.includes('unicorn')) theme = 'unicorn magic with rainbow pastel colors glitter stars and dreamy whimsical tones';
+  else if (k.includes('ガーデン') || k.includes('garden')) theme = 'garden party with soft pastel florals butterfly and elegant feminine garden tones';
+  else if (k.includes('フローラル') || k.includes('floral') || k.includes('花')) theme = 'wildflower garden with soft pink lavender yellow and white mixed floral botanical tones';
+  else if (k.includes('ボーホー') || k.includes('boho')) theme = 'boho floral with pampas grass dried botanicals earthy neutral and warm terracotta tones';
+  else if (k.includes('母の日') || k.includes('mother')) theme = "Mother's Day with soft pink blush roses peonies gold script and elegant feminine floral tones";
+  else if (k.includes('父の日') || k.includes('father')) theme = "Father's Day with navy blue plaid beer barbecue tools and bold masculine classic tones";
+  else if (k.includes('イースター') || k.includes('easter')) theme = 'Easter with soft pastel pink lavender mint bunny chick spring flowers and gentle cheerful tones';
+  else if (k.includes('バレンタイン') || k.includes('valentine')) theme = "Valentine's Day with red pink hearts roses romantic script and sweet love tones";
+  else if (k.includes('ベビー') || k.includes('baby')) theme = 'gender neutral baby shower with soft sage green cream and warm beige minimal elegant tones';
+  else if (k.includes('ダイナソー') || k.includes('dinosaur') || k.includes('恐竜')) theme = 'dinosaur jungle with colorful friendly dinosaurs tropical leaves and bold playful tones';
+  else if (k.includes('one') || k.includes('1歳')) theme = 'first birthday ONE with soft boho florals pampas grass neutral cream and gold tones';
+  else if (k.includes('愛国') || k.includes('4th') || k.includes('アメリカン')) theme = 'patriotic 4th of July red white blue stars and stripes fireworks summer celebration';
+  else if (k.includes('秋') || k.includes('ハーベスト')) theme = 'fall autumn harvest with pumpkins sunflowers dried botanicals and warm terracotta rust and sage tones';
+  else if (k.includes('サンクスギビング') || k.includes('thanksgiving')) theme = 'Thanksgiving with warm orange burgundy gold autumn leaves pumpkins and rustic harvest tones';
+
+  return { type, theme };
+}
+
+function generateAuto() {
+  const keyword = document.getElementById('auto-keyword').value.trim();
+  if (!keyword) {
+    alert('キーワードを入力してください😊');
+    return;
+  }
+  const { type, theme } = detectThemeAndType(keyword);
+  const angle = autoPatterns.angles[Math.floor(Math.random() * autoPatterns.angles.length)];
+  const bg = autoPatterns.bgs[Math.floor(Math.random() * autoPatterns.bgs.length)];
+  const prop = autoPatterns.props[Math.floor(Math.random() * autoPatterns.props.length)];
+  const light = autoPatterns.lights[Math.floor(Math.random() * autoPatterns.lights.length)];
+
+  const prompt = `⚠️ MOST IMPORTANT INSTRUCTION: The attached image is the MASTER DESIGN. You MUST reproduce it with 100% faithful accuracy. Do NOT change, reinterpret, or "improve" any design element. Preserve exactly: all colors, fonts, typography, layout, illustrations, patterns, decorative elements, and text content shown in the attached image. If you cannot reproduce it faithfully, output nothing.
+
+High-quality professional lifestyle photo mockup of a ${type} ${angle}. The ${type} is the clear focal point of the image, rendered with sharp crisp detail. Subtle paper texture visible on the surface. Natural soft shadow beneath. Matte finish, not glossy. Realistic and tactile aesthetic, not AI-looking.
+
+The design printed on the ${type} must exactly match the attached image — same colors, same fonts, same layout, same illustrations. Do not alter the design in any way.
+
+Theme context for props/background only: ${theme}.
+
+Minimal props arranged nearby: ${prop}.
+
+Background: soft-focus ${bg}. ${light}. Square composition 1:1. Photorealistic style. Shot with a DSLR camera, shallow depth of field, ultra-realistic, high resolution, soft color grading.`;
+
+  document.getElementById('auto-output').textContent = prompt;
+  document.getElementById('auto-output-wrap').style.display = 'block';
+  document.getElementById('auto-output-wrap').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyAutoPrompt() {
+  navigator.clipboard.writeText(document.getElementById('auto-output').textContent).then(() => {
+    const btn = document.getElementById('auto-copy-btn');
+    btn.textContent = 'コピーしました！';
+    btn.classList.replace('primary', 'success');
+    setTimeout(() => { btn.textContent = 'コピーする'; btn.classList.replace('success', 'primary'); }, 2000);
+  });
+}
+
 const state = {
   type: '',
   theme: '',
@@ -726,6 +893,7 @@ function copyPrompt() {
 }
 
 function resetAll() {
+  setMode(null);
   state.type = ''; state.theme = ''; state.size = '';
   state.angle = 'held gently in two hands with soft natural nails facing the camera';
   state.bg = 'soft linen fabric surface';
