@@ -686,35 +686,73 @@ function setMode(mode) {
 }
 
 // おまかせ生成
-const autoPatterns = {
-  angles: [
-    'held gently in two hands with soft natural nails facing the camera',
-    'flat lay on a soft linen fabric surface with props arranged naturally around it, top-down shot',
-    'leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind',
-    'flat lay on an aged natural woven rattan tray with warm muted earthy tones, soft shadows cast across the woven texture',
-    'displayed upright on a wooden easel facing forward, elegant and refined presentation',
-  ],
-  bgs: [
-    'soft linen fabric surface',
-    'bright clean white surface',
-    'warm beige or greige wall with soft organic leaf shadow overlay',
-    'soft warm white or cream wall with beautiful dappled botanical leaf and branch shadow patterns',
-    'warm light natural wood table',
-  ],
-  props: [
-    'delicate dried flowers and pampas grass',
-    'fresh eucalyptus sprigs',
-    'white envelope with elegant wax seal beside the card',
-    'white peonies or roses',
-    'soft pink satin ribbon bow and pearl beads',
-  ],
-  lights: [
-    'soft diffused bright overhead natural light',
-    'dramatic natural window side light casting beautiful sharp botanical leaf and branch shadows across the background wall',
-    'warm golden soft natural side light creating a cozy elegant atmosphere',
-    'soft morning light from the side with gentle organic shadow patterns on the wall behind',
-  ]
+// テーマ別おまかせ設定
+const themePresets = {
+  fantasy: { // マーメイド・ユニコーン・プリンセスなど
+    angles: [
+      'held gently in two hands with soft natural nails facing the camera',
+      'flat lay on a soft linen fabric surface, top-down shot, minimal styling',
+    ],
+    bgs: ['bright clean white surface', 'soft linen fabric surface'],
+    props: ['minimal props only', 'small pearl beads scattered', 'soft pink satin ribbon bow'],
+    lights: ['soft diffused bright overhead natural light', 'warm golden soft natural side light creating a cozy elegant atmosphere'],
+  },
+  floral: { // フローラル・ガーデン・ウェディングなど
+    angles: [
+      'held gently in two hands with soft natural nails facing the camera',
+      'leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind, card facing directly forward, no props',
+    ],
+    bgs: ['soft linen fabric surface', 'soft warm white or cream wall with beautiful dappled botanical leaf and branch shadow patterns cast across the surface'],
+    props: ['delicate dried flowers and pampas grass', 'fresh eucalyptus sprigs', 'white peonies or roses'],
+    lights: ['soft diffused bright overhead natural light', 'dramatic natural window side light casting beautiful sharp botanical leaf and branch shadows across the background wall, high-end editorial feel'],
+  },
+  holiday: { // クリスマス・ハロウィン・バレンタインなど
+    angles: [
+      'held gently in two hands with soft natural nails facing the camera',
+      'flat lay on a soft linen fabric surface, top-down shot, minimal styling',
+    ],
+    bgs: ['soft linen fabric surface', 'bright clean white surface'],
+    props: ['minimal props only', 'delicate dried flowers and pampas grass'],
+    lights: ['soft diffused bright overhead natural light', 'warm golden soft natural side light creating a cozy elegant atmosphere'],
+  },
+  kids: { // 恐竜・アドベンチャー・キッズなど
+    angles: [
+      'held gently in two hands with soft natural nails facing the camera',
+      'flat lay on a soft linen fabric surface placed beside a modern smartphone showing the same design on screen, top-down shot, minimal styling',
+    ],
+    bgs: ['bright clean white surface', 'soft linen fabric surface'],
+    props: ['minimal props only', 'small pastel balloons slightly blurred'],
+    lights: ['soft diffused bright overhead natural light', 'bright natural side lighting on a sunny day'],
+  },
+  elegant: { // ウェディング・エレガント系
+    angles: [
+      'held gently in two hands with soft natural nails facing the camera',
+      'leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind, card facing directly forward, no props',
+    ],
+    bgs: ['soft linen fabric surface', 'soft warm white or cream wall with beautiful dappled botanical leaf and branch shadow patterns cast across the surface'],
+    props: ['white envelope with elegant wax seal beside the card', 'fresh eucalyptus sprigs', 'white peonies or roses'],
+    lights: ['dramatic natural window side light casting beautiful sharp botanical leaf and branch shadows across the background wall, high-end editorial feel', 'soft morning light from the side with gentle organic shadow patterns on the wall behind, airy and fresh'],
+  },
+  default: {
+    angles: [
+      'held gently in two hands with soft natural nails facing the camera',
+      'flat lay on a soft linen fabric surface, top-down shot, minimal styling',
+    ],
+    bgs: ['soft linen fabric surface', 'bright clean white surface'],
+    props: ['delicate dried flowers and pampas grass', 'minimal props only'],
+    lights: ['soft diffused bright overhead natural light', 'warm golden soft natural side light creating a cozy elegant atmosphere'],
+  }
 };
+
+function getPreset(keyword) {
+  const k = keyword.toLowerCase();
+  if (k.includes('マーメイド') || k.includes('ユニコーン') || k.includes('プリンセス') || k.includes('フェアリー') || k.includes('スペース') || k.includes('レインボー') || k.includes('mermaid') || k.includes('unicorn')) return themePresets.fantasy;
+  if (k.includes('ウェディング') || k.includes('ブライダル') || k.includes('wedding') || k.includes('bridal')) return themePresets.elegant;
+  if (k.includes('ガーデン') || k.includes('フローラル') || k.includes('花') || k.includes('ボーホー') || k.includes('garden') || k.includes('floral')) return themePresets.floral;
+  if (k.includes('クリスマス') || k.includes('ハロウィン') || k.includes('バレンタイン') || k.includes('イースター') || k.includes('母の日') || k.includes('父の日') || k.includes('christmas') || k.includes('halloween')) return themePresets.holiday;
+  if (k.includes('ダイナソー') || k.includes('恐竜') || k.includes('カウボーイ') || k.includes('パイレーツ') || k.includes('キャンプ') || k.includes('スーパーヒーロー')) return themePresets.kids;
+  return themePresets.default;
+}
 
 function detectThemeAndType(keyword) {
   const k = keyword.toLowerCase();
@@ -761,10 +799,11 @@ function generateAuto() {
     return;
   }
   const { type, theme } = detectThemeAndType(keyword);
-  const angle = autoPatterns.angles[Math.floor(Math.random() * autoPatterns.angles.length)];
-  const bg = autoPatterns.bgs[Math.floor(Math.random() * autoPatterns.bgs.length)];
-  const prop = autoPatterns.props[Math.floor(Math.random() * autoPatterns.props.length)];
-  const light = autoPatterns.lights[Math.floor(Math.random() * autoPatterns.lights.length)];
+  const preset = getPreset(keyword);
+  const angle = preset.angles[Math.floor(Math.random() * preset.angles.length)];
+  const bg = preset.bgs[Math.floor(Math.random() * preset.bgs.length)];
+  const prop = preset.props[Math.floor(Math.random() * preset.props.length)];
+  const light = preset.lights[Math.floor(Math.random() * preset.lights.length)];
 
   const prompt = `⚠️ MOST IMPORTANT INSTRUCTION: The attached image is the MASTER DESIGN. You MUST reproduce it with 100% faithful accuracy. Do NOT change, reinterpret, or "improve" any design element. Preserve exactly: all colors, fonts, typography, layout, illustrations, patterns, decorative elements, and text content shown in the attached image. If you cannot reproduce it faithfully, output nothing.
 
