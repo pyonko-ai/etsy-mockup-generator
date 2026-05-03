@@ -567,14 +567,14 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
     <div class="detail-card">
       <div class="detail-label">構図</div>
       <div class="chip-group" id="angle-group">
-        <span class="chip" data-val="attached to a clean white gift bag with rope handles tied with baker's twine facing directly forward and clearly visible">ギフトバッグ</span>
-        <span class="chip" data-val="placed on a neatly kraft paper wrapped gift box slightly angled tied with twine from a slight top-down angle">クラフトボックス</span>
-        <span class="chip" data-val="leaning against a white gift box on a styled table facing directly forward">立てかけ</span>
+        <span class="chip" data-val="attached to a clean white gift bag with rope handles tied with baker's twine, facing directly forward and clearly visible. Clean minimal white or light neutral background behind the bag. No extra flowers or decorations in the background">ギフトバッグ</span>
+        <span class="chip" data-val="placed on a neatly kraft paper wrapped gift box slightly angled tied with twine, facing directly forward. Clean minimal light neutral background. No extra flowers or decorations in the background">クラフトボックス</span>
+        <span class="chip" data-val="leaning upright against a simple white surface or box, facing directly forward, card large and prominent, minimal background, clean and simple styling">立てかけ</span>
         <span class="chip" data-val="flat lay on an aged natural woven rattan tray with warm muted earthy tones, soft shadows cast across the woven texture, slightly worn and organic looking, not too bright or saturated, slightly angled facing up from above">ラタントレイ平置き</span>
-        <span class="chip" data-val="hung on a clean white wall facing forward draping naturally shot from a front angle">壁掛け</span>
+        <span class="chip" data-val="hung on a clean white wall facing directly forward, the card large and prominent filling most of the frame, shot from a straight front angle. The card is the clear main subject">壁掛け</span>
         <span class="chip active" data-val="held gently in two hands with soft natural nails facing the camera">手持ち</span>
         <span class="chip" data-val="displayed in a light wood frame leaning against a white wall">フレーム飾り</span>
-        <span class="chip" data-val="laid flat on a table as a flat lay top-down shot with props arranged around it">フラットレイ真上</span>
+        <span class="chip" data-val="laid flat as a flat lay, shot from directly above (top-down), the card centered and clearly visible, minimal props arranged neatly around it. The surface should match the selected background">フラットレイ真上</span>
         <span class="chip" data-val="hanging from a natural twine string using small wooden clothespin clips, displayed side by side slightly angled naturally, twine stretched horizontally across upper frame, cards hanging down naturally in portrait orientation">麻紐＋クリップ（1枚）</span>
         <span class="chip" data-val="two cards displayed side by side hanging from natural twine with small wooden clips, slightly overlapping, relaxed lifestyle composition, portrait orientation">麻紐＋クリップ（2枚並び）</span>
         <span class="chip" data-val="leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind, card facing directly forward, no props, card is the only subject">壁＋植物影（主役のみ）</span>
@@ -608,7 +608,8 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
     <div class="detail-card">
       <div class="detail-label">小物（複数選択可）</div>
       <div class="chip-group" id="prop-group">
-        <span class="chip active" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
+        <span class="chip active" data-val="minimal props only">小物なし</span>
+        <span class="chip" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
         <span class="chip" data-val="fresh eucalyptus sprigs">ユーカリ</span>
         <span class="chip" data-val="white peonies or roses">白いピオニー・バラ</span>
         <span class="chip" data-val="small wildflowers and greenery sprigs">野の花・グリーン</span>
@@ -836,7 +837,7 @@ const state = {
   theme: '',
   angle: 'held gently in two hands with soft natural nails facing the camera',
   bg: 'soft linen fabric surface',
-  props: ['delicate dried flowers and pampas grass'],
+  props: ['minimal props only'],
   light: 'soft diffused bright overhead natural light',
   size: ''
 };
