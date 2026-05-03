@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etsy出品タイミングカレンダー 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Kaisei+Decol:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(160deg, #fde8f0 0%, #f8eaf8 35%, #ede8f8 65%, #f8edf5 100%);
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ヘッダー */
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.header-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #e8829a, #c06090);
+  color: #fff;
+  font-family: 'Dancing Script', cursive;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 5px 20px;
+  border-radius: 999px;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 3px 12px rgba(192,96,144,0.25);
+}
+
+.header h1 {
+  font-family: 'Kaisei Decol', serif;
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  color: #7a3060;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+.header p {
+  font-size: 13px;
+  color: #9a8090;
+  line-height: 1.7;
+}
+
+/* 注意書き */
+.notice {
+  background: rgba(255,255,255,0.7);
+  border: 1.5px solid #f0d0dc;
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+  margin-bottom: 2rem;
+  font-size: 12.5px;
+  color: #7a5060;
+  line-height: 1.7;
+}
+.notice strong { color: #c4607a; }
+
+/* 月別カード */
+.month-card {
+  background: rgba(255,255,255,0.88);
+  border: 1.5px solid #ecd8ec;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(180,140,200,0.1);
+  backdrop-filter: blur(4px);
+}
+
+.month-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.9rem 1.2rem;
+  background: linear-gradient(135deg, rgba(232,130,154,0.12), rgba(144,112,184,0.08));
+  border-bottom: 1px solid #f0d8ec;
+  cursor: pointer;
+  user-select: none;
+}
+
+.month-num {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e8829a, #c06090);
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(192,96,144,0.3);
+}
+
+.month-title {
+  font-family: 'Kaisei Decol', serif;
+  font-size: 16px;
+  color: #7a3060;
+  font-weight: 700;
+}
+
+.month-subtitle {
+  font-size: 12px;
+  color: #b090a0;
+  margin-top: 1px;
+}
+
+.month-arrow {
+  margin-left: auto;
+  color: #c4909a;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+.month-card.open .month-arrow {
+  transform: rotate(180deg);
+}
+
+.month-body {
+  display: none;
+  padding: 0.8rem 1.2rem 1rem;
+}
+
+.month-card.open .month-body {
+  display: block;
+}
+
+/* イベント行 */
+.event-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed #f0e0ec;
+  align-items: start;
+}
+
+.event-row:last-child {
+  border-bottom: none;
+}
+
+.event-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3a2530;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-timing {
+  font-size: 12px;
+  color: #9a7080;
+  line-height: 1.5;
+}
+
+.event-tip {
+  font-size: 11.5px;
+  color: #b090a0;
+  line-height: 1.5;
+}
+
+.tag {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(232,130,154,0.15), rgba(144,112,184,0.1));
+  border: 1px solid #e8c0d4;
+  color: #c4607a;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 3px;
+}
+
+.tag.hot {
+  background: linear-gradient(135deg, #e8829a, #c06090);
+  border-color: transparent;
+  color: #fff;
+}
+
+.col-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #c090b0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid #f0d0e4;
+  margin-bottom: 6px;
+}
+
+/* フッター */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.6);
+  border-radius: 20px;
+  border: 1.5px solid #ecd8ec;
+}
+
+.footer p {
+  font-size: 12px;
+  color: #b090a0;
+  line-height: 1.8;
+}
+
+.footer strong {
+  color: #c4607a;
+  font-family: 'Dancing Script', cursive;
+  font-size: 16px;
+}
+
+/* ヘッダー列 */
+.event-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 0 0 4px 0;
+  margin-bottom: 4px;
+}
+
+/* 凡例 */
+.legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  border: 1.5px solid #ecd8ec;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: #7a5060;
+}
+
+@media (max-width: 480px) {
+  .event-row { grid-template-columns: 1fr 1fr; }
+  .event-tip { display: none; }
+  .event-header { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-badge">🎁 無料プレゼント</div>
+    <h1>Etsy出品タイミング<br>カレンダー 2026</h1>
+    <p>Etsyのアルゴリズムに乗るために<br>「いつ出品すればいいか」を月別にまとめました✨</p>
+  </div>
+
+  <div class="notice">
+    ⏰ <strong>大切なポイント：</strong>Etsyのアルゴリズムがインデックスするのに時間がかかります。<br>
+    イベントの<strong>2〜3ヶ月前</strong>には出品しておくのが鉄則です！<br>
+    直前に出しても検索に表示されにくいので、早め早めの準備を心がけましょう🌸
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="tag hot">🔥 激熱</span> 最も売れる時期</div>
+    <div class="legend-item"><span class="tag">📈 狙い目</span> 準備しておきたい</div>
+  </div>
+
+  <!-- 1月 -->
+  <div class="month-card open">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">1</div>
+      <div>
+        <div class="month-title">1月 January</div>
+        <div class="month-subtitle">バレンタイン準備・新年スタート</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">💝 バレンタイン<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">⬅ 今すぐ！<br>（2月14日）</div>
+        <div class="event-tip">ハート・赤・ピンク系が爆売れ。招待状・タグ・カードに注力</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🐣 イースター<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">1月中に出品<br>（4月5日頃）</div>
+        <div class="event-tip">パステル系・うさぎ・卵モチーフ。意外と競合少なめ</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🌷 母の日準備<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">1〜2月に出品<br>（5月11日）</div>
+        <div class="event-tip">フローラル・ピンク・ゴールド系。早めが吉</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2月 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">2</div>
+      <div>
+        <div class="month-title">2月 February</div>
+        <div class="month-subtitle">イースター・母の日・卒業式準備</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🐣 イースター<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">今すぐ！<br>（4月5日頃）</div>
+        <div class="event-tip">検索急増中。パステル・スプリング系全般</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🌷 母の日<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">今すぐ！<br>（5月11日）</div>
+        <div class="event-tip">Etsyで年間トップクラスの売れ時。フローラル系総力戦</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎓 卒業式<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">2月中に出品<br>（5〜6月）</div>
+        <div class="event-tip">ゴールド・ネイビー・タッセル系。意外と需要あり</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">☘️ セントパトリック<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">今すぐ<br>（3月17日）</div>
+        <div class="event-tip">グリーン・シャムロック系。ニッチだが確実な需要</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3月 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">3</div>
+      <div>
+        <div class="month-title">3月 March</div>
+        <div class="month-subtitle">父の日・夏準備スタート</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">👔 父の日<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">3月中に出品<br>（6月15日）</div>
+        <div class="event-tip">ネイビー・プレイド・バーベキュー系。母の日より競合少なめ</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎓 卒業式<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">今すぐ！<br>（5〜6月）</div>
+        <div class="event-tip">検索急増中。バナー・招待状・タグ全て需要あり</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🌊 夏・ルアウ<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">3〜4月に出品<br>（7〜8月）</div>
+        <div class="event-tip">トロピカル・ビーチ系。早めに出しておくと夏中売れる</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4月 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">4</div>
+      <div>
+        <div class="month-title">4月 April</div>
+        <div class="month-subtitle">4th of July・ハロウィン準備</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🇺🇸 4th of July<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">4月中に出品<br>（7月4日）</div>
+        <div class="event-tip">赤・白・青・星条旗系。アメリカ最大の夏イベント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎃 ハロウィン<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">4〜5月に出品<br>（10月31日）</div>
+        <div class="event-tip">早すぎに見えるが検索は6月から始まる。先手必勝！</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5・6月 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">5-6</div>
+      <div>
+        <div class="month-title">5〜6月 May / June</div>
+        <div class="month-subtitle">ハロウィン・クリスマス準備スタート</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎃 ハロウィン<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">今すぐ！<br>（10月31日）</div>
+        <div class="event-tip">オレンジ・ブラック系。かわいい系も需要あり</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎄 クリスマス<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">6月中に出品<br>（12月25日）</div>
+        <div class="event-tip">年間最大の稼ぎ時。早く出すほど有利。絶対に遅れない！</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🍂 サンクスギビング<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">6月中に出品<br>（11月27日）</div>
+        <div class="event-tip">秋・ハーベスト系。クリスマスと並行して準備</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7・8月 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">7-8</div>
+      <div>
+        <div class="month-title">7〜8月 Jul / Aug</div>
+        <div class="month-subtitle">クリスマス・年末総力戦の準備</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎄 クリスマス<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">今すぐ！<br>（12月25日）</div>
+        <div class="event-tip">クラシック・モダン・ピンク系全て。数を出すほど有利</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎁 ホリデーギフト<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">8月中に出品<br>（11〜12月）</div>
+        <div class="event-tip">サンキュータグ・ギフトタグ系は年末需要が爆増</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🥂 ニューイヤー<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">8月中に出品<br>（1月1日）</div>
+        <div class="event-tip">ゴールド・シルバー・シャンパン系</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9・10月 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">9-10</div>
+      <div>
+        <div class="month-title">9〜10月 Sep / Oct</div>
+        <div class="month-subtitle">ホリデーシーズン本番・バレンタイン準備</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">イベント</div>
+        <div class="col-label">出品推奨時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎃 ハロウィン本番<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">出品済みを確認<br>（10月31日）</div>
+        <div class="event-tip">検索ピーク。出品済みならAds強化のタイミング</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎄 クリスマス本番<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">出品済みを確認<br>（12月25日）</div>
+        <div class="event-tip">10月から爆発的に検索が増える。在庫切れに注意</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">💝 バレンタイン準備<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">10月中に出品<br>（2月14日）</div>
+        <div class="event-tip">来年のバレンタインを先取り。競合より早く検索上位へ</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🏈 スーパーボウル<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">10月中に出品<br>（2月1日）</div>
+        <div class="event-tip">フットボール・チームカラー系。ニッチだが確実な需要</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通年 -->
+  <div class="month-card">
+    <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-num">✨</div>
+      <div>
+        <div class="month-title">通年 Year-Round</div>
+        <div class="month-subtitle">いつでも売れる定番テーマ</div>
+      </div>
+      <div class="month-arrow">▼</div>
+    </div>
+    <div class="month-body">
+      <div class="event-header">
+        <div class="col-label">テーマ</div>
+        <div class="col-label">売れやすい時期</div>
+        <div class="col-label">ポイント</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🎂 誕生日全般<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">通年安定<br>ONE〜FIVE特に人気</div>
+        <div class="event-tip">数字テーマは毎月誰かが購入。バリエが多いほど有利</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">👶 ベビーシャワー<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">通年安定<br>春・秋が特に多い</div>
+        <div class="event-tip">ジェンダーニュートラルが特に売れる。常に需要あり</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">💒 ウェディング<div class="tag hot">🔥 激熱</div></div>
+        <div class="event-timing">通年<br>春・秋がピーク</div>
+        <div class="event-tip">ウェディングシーズンは春（4〜6月）と秋（9〜10月）</div>
+      </div>
+      <div class="event-row">
+        <div class="event-name">🌸 フローラル全般<div class="tag">📈 狙い目</div></div>
+        <div class="event-timing">通年<br>春〜夏が特に◎</div>
+        <div class="event-tip">ガーデンパーティー・ワイルドフラワー系は安定人気</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>
+      <strong>Mockup Prompt Generator</strong> と合わせて使うと<br>
+      モックアップ作成の時間が大幅に短縮されます✨<br><br>
+      <span style="font-size:11px;">このカレンダーはEtsyのトレンドデータをもとに作成しています。<br>イベント日程は年によって変わる場合があります。</span>
+    </p>
+  </div>
+
+</div>
+
+<script>
+function toggleCard(header) {
+  const card = header.closest('.month-card');
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
