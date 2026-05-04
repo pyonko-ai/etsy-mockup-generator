@@ -14,26 +14,21 @@ body {
   padding: 2rem 1rem 4rem;
 }
 .page { max-width: 720px; margin: 0 auto; }
-
 .header { text-align: center; margin-bottom: 2rem; }
 .header-badge {
   display: inline-block;
   background: linear-gradient(135deg, #e8829a, #c06090);
   color: #fff;
   font-family: 'Dancing Script', cursive;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 5px 20px;
-  border-radius: 999px;
+  font-size: 18px; font-weight: 700;
+  padding: 5px 20px; border-radius: 999px;
   margin-bottom: 0.8rem;
   box-shadow: 0 3px 12px rgba(192,96,144,0.25);
 }
 .header h1 {
   font-family: 'Kaisei Decol', serif;
   font-size: clamp(1.4rem, 5vw, 2.1rem);
-  color: #7a3060;
-  margin-bottom: 0.4rem;
-  line-height: 1.3;
+  color: #7a3060; margin-bottom: 0.4rem; line-height: 1.3;
 }
 .header p { font-size: 13px; color: #9a8090; line-height: 1.7; }
 .current-date {
@@ -41,80 +36,68 @@ body {
   background: rgba(255,255,255,0.8);
   border: 1.5px solid #ecd8ec;
   border-radius: 999px;
-  padding: 4px 16px;
-  font-size: 12px;
-  color: #9a7090;
-  margin-top: 8px;
+  padding: 4px 16px; font-size: 12px; color: #9a7090; margin-top: 8px;
 }
 
 .notice {
   background: rgba(255,255,255,0.7);
   border: 1.5px solid #f0d0dc;
   border-radius: 14px;
-  padding: 0.9rem 1.2rem;
-  margin-bottom: 1.5rem;
-  font-size: 12.5px;
-  color: #7a5060;
-  line-height: 1.7;
+  padding: 0.9rem 1.2rem; margin-bottom: 1.5rem;
+  font-size: 12.5px; color: #7a5060; line-height: 1.7;
 }
 .notice strong { color: #c4607a; }
 
+/* 凡例 */
 .legend {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-  padding: 0.8rem 1rem;
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 1.5rem; padding: 0.8rem 1rem;
   background: rgba(255,255,255,0.7);
-  border-radius: 12px;
-  border: 1.5px solid #ecd8ec;
+  border-radius: 12px; border: 1.5px solid #ecd8ec;
 }
 .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: #7a5060; }
+
+/* タグ */
+.tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px; margin-top: 3px;
+}
+.tag.urgent { background: linear-gradient(135deg, #f08050, #e06030); color: #fff; }
+.tag.now { background: linear-gradient(135deg, #e8829a, #c06090); color: #fff; }
+.tag.coming { background: rgba(144,112,184,0.15); border: 1px solid #c0a0d8; color: #7050a0; }
+.tag.done-tag { background: #e8e8e8; color: #a0a0a0; border: 1px solid #d8d8d8; }
 
 /* 今すぐセクション */
 .now-section {
   background: rgba(255,255,255,0.92);
-  border: 2px solid #e8829a;
-  border-radius: 20px;
-  margin-bottom: 1rem;
-  overflow: hidden;
+  border: 2px solid #e8829a; border-radius: 20px;
+  margin-bottom: 1rem; overflow: hidden;
   box-shadow: 0 4px 20px rgba(232,130,154,0.2);
 }
 .now-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
   padding: 0.9rem 1.2rem;
   background: linear-gradient(135deg, rgba(232,130,154,0.18), rgba(144,112,184,0.1));
-  border-bottom: 1px solid #f0c8d8;
-  cursor: pointer;
+  border-bottom: 1px solid #f0c8d8; cursor: pointer; user-select: none;
 }
 .now-num {
-  width: 40px; height: 40px;
-  border-radius: 12px;
+  width: 40px; height: 40px; border-radius: 12px;
   background: linear-gradient(135deg, #e8829a, #9070b8);
-  color: #fff;
-  font-size: 20px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  color: #fff; font-size: 20px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(192,96,144,0.3);
 }
 .now-title { font-family: 'Kaisei Decol', serif; font-size: 16px; color: #c4407a; font-weight: 700; }
 .now-subtitle { font-size: 12px; color: #c090a0; margin-top: 1px; }
 
-/* 月別カード */
+/* 月カード */
 .month-card {
   background: rgba(255,255,255,0.88);
-  border: 1.5px solid #ecd8ec;
-  border-radius: 20px;
-  margin-bottom: 0.8rem;
-  overflow: hidden;
+  border: 1.5px solid #ecd8ec; border-radius: 20px;
+  margin-bottom: 0.8rem; overflow: hidden;
   box-shadow: 0 2px 12px rgba(180,140,200,0.08);
 }
-.month-card.past {
-  opacity: 0.65;
-  border-color: #e0e0e0;
-}
+.month-card.past { opacity: 0.6; border-color: #e0e0e0; }
 .month-header {
   display: flex; align-items: center; gap: 12px;
   padding: 0.85rem 1.2rem;
@@ -122,16 +105,12 @@ body {
   border-bottom: 1px solid #f0d8ec;
   cursor: pointer; user-select: none;
 }
-.month-card.past .month-header {
-  background: rgba(240,240,240,0.5);
-}
+.month-card.past .month-header { background: rgba(240,240,240,0.5); }
 .month-num {
-  width: 40px; height: 40px;
-  border-radius: 12px;
+  width: 40px; height: 40px; border-radius: 12px;
   background: linear-gradient(135deg, #e8829a, #c06090);
   color: #fff; font-weight: 800; font-size: 15px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(192,96,144,0.25);
 }
 .month-card.past .month-num { background: #c0b8b8; box-shadow: none; }
@@ -140,12 +119,13 @@ body {
 .month-subtitle { font-size: 11px; color: #b090a0; margin-top: 1px; }
 .month-arrow { margin-left: auto; color: #c4909a; font-size: 16px; transition: transform 0.2s; }
 .month-card.open .month-arrow, .now-section.open .month-arrow { transform: rotate(180deg); }
+
 .month-body, .now-body { display: none; padding: 0.8rem 1.2rem 1rem; }
-.month-card.open .month-body, .now-section.open .now-body { display: block; }
+.month-card.open .month-body { display: block; }
 
 .event-header {
-  display: grid; grid-template-columns: 1.2fr 1fr 1.2fr;
-  gap: 8px; padding: 0 0 4px 0; margin-bottom: 4px;
+  display: grid; grid-template-columns: 1.3fr 1fr 1.2fr;
+  gap: 8px; padding-bottom: 4px; margin-bottom: 4px;
 }
 .col-label {
   font-size: 10px; font-weight: 700; color: #c090b0;
@@ -153,36 +133,17 @@ body {
   padding-bottom: 5px; border-bottom: 1.5px solid #f0d0e4;
 }
 .event-row {
-  display: grid; grid-template-columns: 1.2fr 1fr 1.2fr;
+  display: grid; grid-template-columns: 1.3fr 1fr 1.2fr;
   gap: 8px; padding: 0.55rem 0;
   border-bottom: 1px dashed #f0e0ec; align-items: start;
 }
 .event-row:last-child { border-bottom: none; }
-.event-name { font-size: 13px; font-weight: 700; color: #3a2530; }
-.event-timing { font-size: 12px; color: #9a7080; line-height: 1.5; }
-.event-tip { font-size: 11.5px; color: #b090a0; line-height: 1.5; }
-
-/* 終了済み */
 .event-row.done .event-name { color: #b0a0a0; }
 .event-row.done .event-timing { color: #c0b8b8; }
 .event-row.done .event-tip { color: #c8c0c0; }
-
-.tag {
-  display: inline-block;
-  font-size: 10px; font-weight: 700;
-  padding: 2px 8px; border-radius: 999px;
-  margin-top: 3px;
-}
-.tag.hot { background: linear-gradient(135deg, #e8829a, #c06090); color: #fff; }
-.tag.now { background: linear-gradient(135deg, #e8829a, #9070b8); color: #fff; animation: pulse 1.5s infinite; }
-.tag.coming { background: rgba(232,130,154,0.12); border: 1px solid #e8c0d4; color: #c4607a; }
-.tag.done-tag { background: #e8e8e8; color: #a0a0a0; border: 1px solid #d8d8d8; }
-.tag.soon { background: linear-gradient(135deg, #f0c070, #e8a050); color: #fff; }
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
+.event-name { font-size: 13px; font-weight: 700; color: #3a2530; }
+.event-timing { font-size: 12px; color: #9a7080; line-height: 1.5; }
+.event-tip { font-size: 11.5px; color: #b090a0; line-height: 1.5; }
 
 .footer {
   text-align: center; margin-top: 2rem; padding: 1.5rem;
@@ -193,7 +154,7 @@ body {
 .footer strong { color: #c4607a; font-family: 'Dancing Script', cursive; font-size: 16px; }
 
 @media (max-width: 480px) {
-  .event-row, .event-header { grid-template-columns: 1.2fr 1fr; }
+  .event-row, .event-header { grid-template-columns: 1.3fr 1fr; }
   .event-tip, .event-header .col-label:last-child { display: none; }
 }
 </style>
@@ -203,24 +164,22 @@ body {
   <div class="header">
     <div class="header-badge">🎁 無料プレゼント</div>
     <h1>Etsy出品タイミング<br>カレンダー</h1>
-    <p>いつ出品すれば売れるか、月別にまとめました✨<br>開いた日付に合わせて自動で更新されます</p>
+    <p>開いた日付に合わせて自動で更新されます✨</p>
     <div class="current-date" id="current-date"></div>
   </div>
 
   <div class="notice">
-    ⏰ <strong>大切なポイント：</strong>Etsyのアルゴリズムがインデックスするのに時間がかかります。<br>
-    イベントの<strong>2〜3ヶ月前</strong>には出品しておくのが鉄則です！<br>
-    直前に出しても検索に表示されにくいので、早め早めの準備を🌸
+    ⏰ <strong>大切なポイント：</strong>Etsyはイベントの<strong>2〜3ヶ月前</strong>から出品しないと検索に表示されません！<br>
+    「急いで」タグのイベントはもう締め切りが近いので今すぐ出品を🌸
   </div>
 
   <div class="legend">
-    <div class="legend-item"><span class="tag now">🔥 今すぐ</span> 今が出品タイミング</div>
-    <div class="legend-item"><span class="tag soon">⚡ 急いで</span> もうすぐ締め切り</div>
-    <div class="legend-item"><span class="tag coming">📈 準備</span> 準備しておこう</div>
+    <div class="legend-item"><span class="tag urgent">⚡ 急いで</span> 2ヶ月以内・今すぐ出品</div>
+    <div class="legend-item"><span class="tag now">🔥 今すぐ</span> 4ヶ月以内・出品タイミング</div>
+    <div class="legend-item"><span class="tag coming">📈 準備</span> 6ヶ月以内・準備しよう</div>
     <div class="legend-item"><span class="tag done-tag">✅ 終了</span> 来年の参考に</div>
   </div>
 
-  <!-- 動的コンテンツ -->
   <div id="now-section"></div>
   <div id="calendar-body"></div>
 
@@ -235,162 +194,118 @@ body {
 </div>
 
 <script>
-// ===== イベントデータ =====
-// deadline: 出品推奨の締め切り日（これを過ぎると「終了」）
-// eventDate: 実際のイベント日
-// hotStart: この日から「今すぐ」タグ
-const events = [
-  // 固定イベント（毎年同じ月日）
-  { name: '💝 バレンタイン', month: 2, day: 14, hotStart: { m: 11, d: 1 }, deadline: { m: 1, d: 20 }, tip: 'ハート・赤・ピンク系。招待状・タグ・カード全般', label: '2月14日' },
-  { name: '☘️ セントパトリック', month: 3, day: 17, hotStart: { m: 1, d: 1 }, deadline: { m: 3, d: 1 }, tip: 'グリーン・シャムロック系。競合少なめのニッチ需要', label: '3月17日' },
-  { name: '🐣 イースター', month: 4, day: 5, hotStart: { m: 1, d: 15 }, deadline: { m: 3, d: 15 }, tip: 'パステル系・うさぎ・卵モチーフ。春らしい明るいデザイン', label: '4月初旬' },
-  { name: '🌷 母の日', month: 5, day: 11, hotStart: { m: 2, d: 1 }, deadline: { m: 4, d: 15 }, tip: '年間トップクラスの売れ時。フローラル・ピンク・ゴールド系', label: '5月第2日曜' },
-  { name: '🎓 卒業式', month: 6, day: 1, hotStart: { m: 2, d: 15 }, deadline: { m: 5, d: 1 }, tip: 'ゴールド・ネイビー・タッセル系。バナーや招待状に需要', label: '5〜6月' },
-  { name: '👔 父の日', month: 6, day: 15, hotStart: { m: 3, d: 1 }, deadline: { m: 5, d: 15 }, tip: 'ネイビー・プレイド・バーベキュー系。母の日より競合少なめ', label: '6月第3日曜' },
-  { name: '🌊 夏・ルアウ', month: 8, day: 1, hotStart: { m: 4, d: 1 }, deadline: { m: 6, d: 15 }, tip: 'トロピカル・ビーチ系。早めに出すと夏中ずっと売れる', label: '7〜8月' },
-  { name: '🇺🇸 4th of July', month: 7, day: 4, hotStart: { m: 4, d: 1 }, deadline: { m: 6, d: 1 }, tip: '赤・白・青・星条旗系。アメリカ最大の夏イベント', label: '7月4日' },
-  { name: '🏈 スーパーボウル', month: 2, day: 1, hotStart: { m: 10, d: 1 }, deadline: { m: 12, d: 31 }, tip: 'フットボール・チームカラー系。ニッチだが確実な需要', label: '2月初旬' },
-  { name: '🎃 ハロウィン', month: 10, day: 31, hotStart: { m: 5, d: 1 }, deadline: { m: 9, d: 15 }, tip: 'オレンジ・ブラック系。かわいい系も人気。6月から検索急増', label: '10月31日' },
-  { name: '🍂 サンクスギビング', month: 11, day: 27, hotStart: { m: 6, d: 1 }, deadline: { m: 10, d: 1 }, tip: '秋・ハーベスト系。クリスマスと並行して準備', label: '11月第4木曜' },
-  { name: '🎄 クリスマス', month: 12, day: 25, hotStart: { m: 6, d: 1 }, deadline: { m: 11, day: 1 }, tip: '年間最大の稼ぎ時。クラシック・モダン・ピンク系全て用意', label: '12月25日' },
-  { name: '🥂 ニューイヤー', month: 1, day: 1, hotStart: { m: 8, d: 1 }, deadline: { m: 12, d: 1 }, tip: 'ゴールド・シルバー・シャンパン系。クリスマスと並行', label: '1月1日' },
-];
-
-// 通年イベント
-const yearRound = [
-  { name: '🎂 誕生日全般', tag: 'hot', tip: '数字テーマ（ONE〜FIVE）は毎月誰かが購入。通年安定' },
-  { name: '👶 ベビーシャワー', tag: 'hot', tip: 'ジェンダーニュートラルが特に人気。常に需要あり' },
-  { name: '💒 ウェディング', tag: 'hot', tip: 'ピークは春（4〜6月）と秋（9〜10月）。通年安定' },
-  { name: '🌸 フローラル全般', tag: 'coming', tip: 'ガーデンパーティー・ワイルドフラワー系。春〜夏が特に◎' },
-];
-
-// ===== 日付ユーティリティ =====
 const today = new Date();
-const thisYear = today.getFullYear();
-const thisMonth = today.getMonth() + 1; // 1-12
-const thisDay = today.getDate();
+const ty = today.getFullYear();
+const tm = today.getMonth() + 1;
+const td = today.getDate();
 
-function toDate(m, d, y) {
-  return new Date(y || thisYear, m - 1, d);
+document.getElementById('current-date').textContent =
+  `📅 現在：${ty}年${tm}月${td}日`;
+
+// イベントデータ
+const events = [
+  { name: '💝 バレンタイン', month: 2, day: 14, tip: 'ハート・赤・ピンク系。招待状・タグ・カード全般', label: '2月14日' },
+  { name: '☘️ セントパトリック', month: 3, day: 17, tip: 'グリーン・シャムロック系。競合少なめのニッチ需要', label: '3月17日' },
+  { name: '🐣 イースター', month: 4, day: 5, tip: 'パステル系・うさぎ・卵モチーフ。春らしい明るいデザイン', label: '4月初旬' },
+  { name: '🌷 母の日', month: 5, day: 11, tip: '年間トップクラスの売れ時。フローラル・ピンク・ゴールド系', label: '5月第2日曜' },
+  { name: '🎓 卒業式', month: 6, day: 1, tip: 'ゴールド・ネイビー系。バナーや招待状に需要あり', label: '5〜6月' },
+  { name: '👔 父の日', month: 6, day: 15, tip: 'ネイビー・プレイド・バーベキュー系。母の日より競合少なめ', label: '6月第3日曜' },
+  { name: '🇺🇸 4th of July', month: 7, day: 4, tip: '赤・白・青・星条旗系。アメリカ最大の夏イベント', label: '7月4日' },
+  { name: '🌊 夏・ルアウ', month: 8, day: 1, tip: 'トロピカル・ビーチ系。早めに出すと夏中ずっと売れる', label: '7〜8月' },
+  { name: '🎃 ハロウィン', month: 10, day: 31, tip: 'オレンジ・ブラック系とかわいい系。6月から検索急増', label: '10月31日' },
+  { name: '🍂 サンクスギビング', month: 11, day: 27, tip: '秋・ハーベスト系。クリスマスと並行して準備', label: '11月第4木曜' },
+  { name: '🎄 クリスマス', month: 12, day: 25, tip: '年間最大の稼ぎ時。クラシック・モダン・ピンク系全て', label: '12月25日' },
+  { name: '🥂 ニューイヤー', month: 1, day: 1, tip: 'ゴールド・シルバー・シャンパン系', label: '1月1日' },
+  { name: '🏈 スーパーボウル', month: 2, day: 1, tip: 'フットボール・チームカラー系。ニッチだが確実な需要', label: '2月初旬' },
+];
+
+const yearRound = [
+  { name: '🎂 誕生日全般', hot: true, tip: '数字テーマ（ONE〜FIVE）は毎月誰かが購入。通年安定' },
+  { name: '👶 ベビーシャワー', hot: true, tip: 'ジェンダーニュートラルが特に人気。常に需要あり' },
+  { name: '💒 ウェディング', hot: true, tip: 'ピークは春（4〜6月）と秋（9〜10月）。通年安定' },
+  { name: '🌸 フローラル全般', hot: false, tip: 'ガーデンパーティー・ワイルドフラワー系。春〜夏が特に◎' },
+];
+
+function addMonths(d, m) {
+  const r = new Date(d);
+  r.setMonth(r.getMonth() + m);
+  return r;
 }
 
-function isBefore(m, d, y) {
-  return today > toDate(m, d, y);
+function getNextEventDate(month, day) {
+  const thisYear = new Date(ty, month - 1, day);
+  if (today <= thisYear) return thisYear;
+  return new Date(ty + 1, month - 1, day);
 }
 
-function isInRange(startM, startD, endM, endD) {
-  const start = toDate(startM, startD);
-  const end = toDate(endM, endD);
-  return today >= start && today <= end;
-}
-
-// イベントが「今年」か「来年」かを判断
-function getEventYear(eventM, eventD) {
-  const eventThisYear = toDate(eventM, eventD, thisYear);
-  return today > eventThisYear ? thisYear + 1 : thisYear;
-}
-
-// イベントのステータスを判定
 function getStatus(ev) {
-  const evYear = getEventYear(ev.month, ev.day);
-  const evDate = toDate(ev.month, ev.day, evYear);
-  const deadlineYear = evYear; // deadlineは同じ年
-  const deadlineDate = toDate(ev.deadline.m, ev.deadline.d, deadlineYear);
-  const hotStartDate = toDate(ev.hotStart.m, ev.hotStart.d, evYear - (ev.hotStart.m > ev.month ? 1 : 0));
+  const evDate = getNextEventDate(ev.month, ev.day);
+  const doneDate   = new Date(evDate); doneDate.setDate(doneDate.getDate() - 14);
+  const urgentDate = addMonths(evDate, -2);
+  const nowDate    = addMonths(evDate, -4);
+  const comingDate = addMonths(evDate, -6);
 
-  // 締め切り過ぎ → 終了（来年版）
-  if (today > deadlineDate) return 'done';
-  // hotStart〜締め切り → 今すぐ
-  if (today >= hotStartDate) return 'now';
-  // hotStartの1ヶ月前 → 急いで
-  const soonDate = new Date(hotStartDate);
-  soonDate.setMonth(soonDate.getMonth() - 1);
-  if (today >= soonDate) return 'soon';
-  // それより前 → 準備
-  return 'coming';
+  if (today >= doneDate)   return 'done';
+  if (today >= urgentDate) return 'urgent';
+  if (today >= nowDate)    return 'now';
+  if (today >= comingDate) return 'coming';
+  return 'hidden';
 }
 
 function tagHtml(status) {
-  if (status === 'now') return '<div class="tag now">🔥 今すぐ！</div>';
-  if (status === 'soon') return '<div class="tag soon">⚡ 急いで</div>';
+  if (status === 'urgent') return '<div class="tag urgent">⚡ 急いで！</div>';
+  if (status === 'now')    return '<div class="tag now">🔥 今すぐ！</div>';
   if (status === 'coming') return '<div class="tag coming">📈 準備</div>';
-  if (status === 'done') return '<div class="tag done-tag">✅ 終了</div>';
+  if (status === 'done')   return '<div class="tag done-tag">✅ 終了</div>';
   return '';
 }
 
-function getDeadlineText(ev, status) {
-  const evYear = getEventYear(ev.month, ev.day);
-  if (status === 'done') {
-    const nextY = thisYear + 1;
-    return `${ev.label}<br><span style="font-size:11px;color:#b0a0a0;">来年は${ev.deadline.m}月までに出品</span>`;
+function timingText(ev, status) {
+  const evDate = getNextEventDate(ev.month, ev.day);
+  const urgentDate = addMonths(evDate, -2);
+  const nowDate    = addMonths(evDate, -4);
+
+  if (status === 'done')   return `${ev.label}<br><span style="font-size:11px;color:#b0a0a0;">来年は4ヶ月前に出品</span>`;
+  if (status === 'urgent') return `${ev.label}<br><span style="color:#e06030;font-size:11px;font-weight:700;">⚡ 今すぐ出品！</span>`;
+  if (status === 'now')    return `${ev.label}<br><span style="color:#c4607a;font-size:11px;font-weight:700;">🔥 出品タイミング！</span>`;
+  if (status === 'coming') {
+    const nm = nowDate.getMonth() + 1;
+    return `${ev.label}<br><span style="font-size:11px;color:#7050a0;">${nm}月頃から出品開始</span>`;
   }
-  if (status === 'now') return `${ev.label}<br><span style="color:#c4607a;font-size:11px;">⬅ 今が出品タイミング！</span>`;
-  if (status === 'soon') return `${ev.label}<br><span style="color:#e8a050;font-size:11px;">⚡ ${ev.deadline.m}月までに出品</span>`;
-  return `${ev.label}<br><span style="font-size:11px;color:#b0a0b0;">${ev.hotStart.m}月頃から出品開始</span>`;
+  return ev.label;
 }
 
-// ===== 月別グループ化 =====
-const months = [
-  { num: '1', title: '1月 January', sub: '新年スタート・バレンタイン準備' },
-  { num: '2', title: '2月 February', sub: 'イースター・母の日準備' },
-  { num: '3', title: '3月 March', sub: '父の日・夏準備スタート' },
-  { num: '4', title: '4月 April', sub: '4th of July・ハロウィン準備' },
-  { num: '5', title: '5月 May', sub: 'ハロウィン・クリスマス準備' },
-  { num: '6', title: '6月 June', sub: 'クリスマス・サンクスギビング準備' },
-  { num: '7', title: '7月 July', sub: 'ハロウィン本番準備・クリスマス継続' },
-  { num: '8', title: '8月 August', sub: 'クリスマス総力戦・年末準備' },
-  { num: '9', title: '9月 September', sub: 'ハロウィン本番・クリスマス加速' },
-  { num: '10', title: '10月 October', sub: 'クリスマス・バレンタイン準備' },
-  { num: '11', title: '11月 November', sub: 'クリスマス本番・新年準備' },
-  { num: '12', title: '12月 December', sub: '新年・バレンタイン準備' },
-];
-
-// 各月に関連するイベントを割り当て（hotStartの月）
-function getEventsForMonth(monthNum) {
-  return events.filter(ev => ev.hotStart.m === monthNum);
-}
-
-// ===== レンダリング =====
-function renderCurrentDate() {
-  const d = today;
-  const y = d.getFullYear();
-  const m = d.getMonth() + 1;
-  const day = d.getDate();
-  document.getElementById('current-date').textContent = `📅 現在：${y}年${m}月${day}日`;
-}
-
-function renderNowSection() {
-  const nowEvents = events.map(ev => ({ ev, status: getStatus(ev) }))
-    .filter(({ status }) => status === 'now' || status === 'soon')
+// 今すぐ・急いでセクション
+function renderNow() {
+  const active = events
+    .map(ev => ({ ev, status: getStatus(ev) }))
+    .filter(({ status }) => status === 'urgent' || status === 'now')
     .sort((a, b) => {
-      if (a.status === 'now' && b.status !== 'now') return -1;
-      if (b.status === 'now' && a.status !== 'now') return 1;
-      return 0;
+      if (a.status === 'urgent' && b.status !== 'urgent') return -1;
+      if (b.status === 'urgent' && a.status !== 'urgent') return 1;
+      return getNextEventDate(a.ev.month, a.ev.day) - getNextEventDate(b.ev.month, b.ev.day);
     });
 
-  if (nowEvents.length === 0) {
-    document.getElementById('now-section').innerHTML = '';
-    return;
-  }
+  if (!active.length) { document.getElementById('now-section').innerHTML = ''; return; }
 
-  let rows = nowEvents.map(({ ev, status }) => `
+  const rows = active.map(({ ev, status }) => `
     <div class="event-row">
       <div class="event-name">${ev.name}${tagHtml(status)}</div>
-      <div class="event-timing">${getDeadlineText(ev, status)}</div>
+      <div class="event-timing">${timingText(ev, status)}</div>
       <div class="event-tip">${ev.tip}</div>
     </div>`).join('');
 
   document.getElementById('now-section').innerHTML = `
     <div class="now-section open">
-      <div class="now-header" onclick="toggleNow(this)">
+      <div class="now-header" onclick="this.closest('.now-section').classList.toggle('open');this.closest('.now-section').querySelector('.now-body').style.display=this.closest('.now-section').classList.contains('open')?'block':'none';">
         <div class="now-num">🔥</div>
         <div>
           <div class="now-title">今すぐ取り組もう！</div>
-          <div class="now-subtitle">今が出品タイミングのイベント</div>
+          <div class="now-subtitle">今が出品タイミング・もうすぐ締め切りのイベント</div>
         </div>
         <div class="month-arrow" style="margin-left:auto;color:#c4607a;font-size:16px;transition:transform 0.2s;">▼</div>
       </div>
-      <div class="now-body" style="display:block;">
+      <div class="now-body" style="display:block;padding:0.8rem 1.2rem 1rem;">
         <div class="event-header">
           <div class="col-label">イベント</div>
           <div class="col-label">イベント日</div>
@@ -401,38 +316,90 @@ function renderNowSection() {
     </div>`;
 }
 
+// 月別カレンダー
+const monthDefs = [
+  { num:'1',  title:'1月 January',   sub:'新年・バレンタイン準備' },
+  { num:'2',  title:'2月 February',  sub:'イースター・母の日準備' },
+  { num:'3',  title:'3月 March',     sub:'父の日・夏準備' },
+  { num:'4',  title:'4月 April',     sub:'4th of July・ハロウィン準備' },
+  { num:'5',  title:'5月 May',       sub:'夏・ハロウィン準備' },
+  { num:'6',  title:'6月 June',      sub:'ハロウィン・クリスマス準備' },
+  { num:'7',  title:'7月 July',      sub:'クリスマス・サンクスギビング準備' },
+  { num:'8',  title:'8月 August',    sub:'クリスマス・ニューイヤー準備' },
+  { num:'9',  title:'9月 September', sub:'クリスマス加速・スーパーボウル準備' },
+  { num:'10', title:'10月 October',  sub:'クリスマス本番・バレンタイン準備' },
+  { num:'11', title:'11月 November', sub:'クリスマス本番・新年準備' },
+  { num:'12', title:'12月 December', sub:'新年・バレンタイン準備' },
+];
+
+// 各月に表示するイベント（終了済みは除外）
+function getMonthEvents(mNum) {
+  return events.filter(ev => {
+    const status = getStatus(ev);
+    // 終了済みは表示しない
+    if (status === 'done') return false;
+    const evDate = getNextEventDate(ev.month, ev.day);
+    const showFrom = addMonths(evDate, -6);
+    const showTo   = new Date(evDate); showTo.setDate(showTo.getDate() - 14);
+    const monthStart = new Date(ty, mNum - 1, 1);
+    const monthEnd   = new Date(ty, mNum, 0);
+    return showFrom <= monthEnd && monthStart <= showTo;
+  });
+}
+
 function renderCalendar() {
   let html = '';
-
-  months.forEach((month, idx) => {
+  monthDefs.forEach((md, idx) => {
     const mNum = idx + 1;
-    const monthEvents = getEventsForMonth(mNum);
-    if (monthEvents.length === 0) return;
+    const mEvents = getMonthEvents(mNum);
+    
+    // この月が完全に過去かどうか（月末が今日より前）
+    const monthEnd = new Date(ty, mNum, 0);
+    const isPastMonth = monthEnd < today;
 
-    const statuses = monthEvents.map(ev => getStatus(ev));
-    const allDone = statuses.every(s => s === 'done');
-    const hasNow = statuses.some(s => s === 'now' || s === 'soon');
-    const isCurrentMonth = mNum === thisMonth;
-    const isOpen = isCurrentMonth || hasNow;
+    // 過去の月でイベントもない場合はグレー表示のみ
+    if (!mEvents.length) {
+      if (isPastMonth) {
+        html += `
+          <div class="month-card past">
+            <div class="month-header" onclick="this.closest('.month-card').classList.toggle('open');">
+              <div class="month-num">${md.num}</div>
+              <div>
+                <div class="month-title">${md.title}</div>
+                <div class="month-subtitle">✅ 終了済み・来年の参考に</div>
+              </div>
+              <div class="month-arrow">▼</div>
+            </div>
+            <div class="month-body">
+              <p style="font-size:12px;color:#c0b0b0;padding:0.5rem 0;">このシーズンの出品タイミングは終了しました。来年は早めに準備しましょう😊</p>
+            </div>
+          </div>`;
+      }
+      return;
+    }
 
-    let rows = monthEvents.map((ev, i) => {
-      const status = statuses[i];
-      const isDone = status === 'done';
+    const statuses = mEvents.map(ev => getStatus(ev));
+    const hasActive = statuses.some(s => s === 'urgent' || s === 'now');
+    const isCurrent = mNum === tm;
+    const isOpen = isCurrent || hasActive;
+
+    const rows = mEvents.map((ev, i) => {
+      const st = statuses[i];
       return `
-        <div class="event-row${isDone ? ' done' : ''}">
-          <div class="event-name">${ev.name}${tagHtml(status)}</div>
-          <div class="event-timing">${getDeadlineText(ev, status)}</div>
+        <div class="event-row">
+          <div class="event-name">${ev.name}${tagHtml(st)}</div>
+          <div class="event-timing">${timingText(ev, st)}</div>
           <div class="event-tip">${ev.tip}</div>
         </div>`;
     }).join('');
 
     html += `
-      <div class="month-card${allDone ? ' past' : ''}${isOpen ? ' open' : ''}">
-        <div class="month-header" onclick="toggleCard(this)">
-          <div class="month-num">${month.num}</div>
+      <div class="month-card${isPastMonth ? ' past' : ''}${isOpen ? ' open' : ''}">
+        <div class="month-header" onclick="this.closest('.month-card').classList.toggle('open');">
+          <div class="month-num">${md.num}</div>
           <div>
-            <div class="month-title">${month.title}</div>
-            <div class="month-subtitle">${allDone ? '※終了済み・来年の参考に' : month.sub}</div>
+            <div class="month-title">${md.title}</div>
+            <div class="month-subtitle">${md.sub}</div>
           </div>
           <div class="month-arrow">▼</div>
         </div>
@@ -447,10 +414,10 @@ function renderCalendar() {
       </div>`;
   });
 
-  // 通年セクション
+  // 通年
   html += `
     <div class="month-card open">
-      <div class="month-header" onclick="toggleCard(this)">
+      <div class="month-header" onclick="this.closest('.month-card').classList.toggle('open');">
         <div class="month-num">✨</div>
         <div>
           <div class="month-title">通年 Year-Round</div>
@@ -466,7 +433,7 @@ function renderCalendar() {
         </div>
         ${yearRound.map(ev => `
           <div class="event-row">
-            <div class="event-name">${ev.name}<div class="tag ${ev.tag === 'hot' ? 'hot' : 'coming'}">${ev.tag === 'hot' ? '🔥 通年人気' : '📈 狙い目'}</div></div>
+            <div class="event-name">${ev.name}<div class="tag ${ev.hot ? 'now' : 'coming'}">${ev.hot ? '🔥 通年人気' : '📈 狙い目'}</div></div>
             <div class="event-timing">通年安定</div>
             <div class="event-tip">${ev.tip}</div>
           </div>`).join('')}
@@ -476,21 +443,7 @@ function renderCalendar() {
   document.getElementById('calendar-body').innerHTML = html;
 }
 
-function toggleCard(header) {
-  header.closest('.month-card').classList.toggle('open');
-}
-
-function toggleNow(header) {
-  const section = header.closest('.now-section');
-  section.classList.toggle('open');
-  const body = section.querySelector('.now-body');
-  body.style.display = section.classList.contains('open') ? 'block' : 'none';
-  header.querySelector('.month-arrow').style.transform = section.classList.contains('open') ? 'rotate(180deg)' : '';
-}
-
-// 初期化
-renderCurrentDate();
-renderNowSection();
+renderNow();
 renderCalendar();
 </script>
 </body>
