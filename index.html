@@ -257,6 +257,11 @@ header p { font-size: 13px; color: var(--text-sub); }
 .screen.active { display: block; }
 
 footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text-hint); }
+.theme-tab { padding: 7px 14px; border-radius: var(--radius); border: 1.5px solid var(--border); background: var(--white); color: var(--text-sub); font-family: 'Nunito', sans-serif; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.theme-tab:hover { border-color: var(--rose); color: var(--rose); }
+.theme-tab.active { background: var(--rose); border-color: var(--rose); color: #fff; box-shadow: 0 2px 8px rgba(196,128,143,0.3); }
+.tab-content { display: none !important; }
+.tab-content.active { display: block !important; }
 @media (max-width: 480px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .theme-grid { grid-template-columns: repeat(2, 1fr); }
@@ -408,20 +413,25 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
   <div class="screen" id="screen2">
     <div class="section-title">テーマを選んでください</div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🍓 Sweet ONE・フルーツ系</div>
-      <div class="theme-grid">
-        <div class="theme-chip" data-val="strawberry Berry First birthday with pink red strawberry gingham bow ribbon and sweet feminine tones">ストロベリー</div>
-        <div class="theme-chip" data-val="Sweet ONE donut pink sprinkles pastel sugary sweet bakery first birthday tones">スイートONE（ドーナツ）</div>
-        <div class="theme-chip" data-val="watermelon One in a Melon birthday with bright pink green watermelon slice summer fresh tones">スイカ・One in a Melon</div>
-        <div class="theme-chip" data-val="sweet bee bumble bee birthday with yellow black honeycomb flowers and sweet honey tones">ビー・ハチミツ</div>
-        <div class="theme-chip" data-val="cherry fruit birthday with bright red cherries pastel pink and playful summer tones">チェリー</div>
-        <div class="theme-chip" data-val="lemon citrus summer birthday with bright yellow lemon slices greenery and fresh sunny tones">レモン・シトラス</div>
-      </div>
+    <!-- タブ -->
+    <div id="theme-tabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;">
+      <button class="theme-tab active" onclick="switchTab('birthday')">🎂 誕生日</button>
+      <button class="theme-tab" onclick="switchTab('fruit')">🍓 フルーツ</button>
+      <button class="theme-tab" onclick="switchTab('fantasy')">✨ ファンタジー</button>
+      <button class="theme-tab" onclick="switchTab('floral')">🌸 フローラル</button>
+      <button class="theme-tab" onclick="switchTab('summer')">🌊 サマー</button>
+      <button class="theme-tab" onclick="switchTab('girly')">🎀 ガーリー</button>
+      <button class="theme-tab" onclick="switchTab('animal')">🦁 動物</button>
+      <button class="theme-tab" onclick="switchTab('adventure')">🦕 アドベンチャー</button>
+      <button class="theme-tab" onclick="switchTab('baby')">👶 ベビー</button>
+      <button class="theme-tab" onclick="switchTab('holiday')">🎄 ホリデー</button>
+      <button class="theme-tab" onclick="switchTab('wedding')">💒 ウェディング</button>
+      <button class="theme-tab" onclick="switchTab('patriotic')">🇺🇸 愛国</button>
+      <button class="theme-tab" onclick="switchTab('event')">🎉 イベント</button>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🎂 誕生日・数字</div>
+    <!-- タブコンテンツ -->
+    <div class="tab-content active" id="tab-birthday">
       <div class="theme-grid">
         <div class="theme-chip" data-val="first birthday ONE with soft boho florals pampas grass neutral cream and gold tones">ONE（1歳）</div>
         <div class="theme-chip" data-val="second birthday TWO with playful colorful balloons confetti and bright cheerful tones">TWO（2歳）</div>
@@ -438,8 +448,18 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">✨ ファンタジー・魔法</div>
+    <div class="tab-content" id="tab-fruit">
+      <div class="theme-grid">
+        <div class="theme-chip" data-val="strawberry Berry First birthday with pink red strawberry gingham bow ribbon and sweet feminine tones">ストロベリー</div>
+        <div class="theme-chip" data-val="Sweet ONE donut pink sprinkles pastel sugary sweet bakery first birthday tones">スイートONE（ドーナツ）</div>
+        <div class="theme-chip" data-val="watermelon One in a Melon birthday with bright pink green watermelon slice summer fresh tones">スイカ・One in a Melon</div>
+        <div class="theme-chip" data-val="sweet bee bumble bee birthday with yellow black honeycomb flowers and sweet honey tones">ビー・ハチミツ</div>
+        <div class="theme-chip" data-val="cherry fruit birthday with bright red cherries pastel pink and playful summer tones">チェリー</div>
+        <div class="theme-chip" data-val="lemon citrus summer birthday with bright yellow lemon slices greenery and fresh sunny tones">レモン・シトラス</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-fantasy">
       <div class="theme-grid">
         <div class="theme-chip" data-val="mermaid under the sea with teal aqua purple iridescent scales bubbles starfish and ocean tones">マーメイド</div>
         <div class="theme-chip" data-val="unicorn magic with rainbow pastel colors glitter stars and dreamy whimsical tones">ユニコーン</div>
@@ -451,8 +471,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🌸 フローラル・ナチュラル</div>
+    <div class="tab-content" id="tab-floral">
       <div class="theme-grid">
         <div class="theme-chip" data-val="wildflower garden with soft pink lavender yellow and white mixed floral botanical tones">ワイルドフラワー</div>
         <div class="theme-chip" data-val="boho floral with pampas grass dried botanicals earthy neutral and warm terracotta tones">ボーホーフローラル</div>
@@ -463,8 +482,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🌊 サマー・プール・海</div>
+    <div class="tab-content" id="tab-summer">
       <div class="theme-grid">
         <div class="theme-chip" data-val="pool party splash water park summer with bright blue water waves pool floats and fun sunny tones">プールパーティー</div>
         <div class="theme-chip" data-val="under the sea ocean birthday with waves fish coral seashells and bright aqua blue tones">アンダーザシー</div>
@@ -474,8 +492,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🎀 トレンド・ガーリー</div>
+    <div class="tab-content" id="tab-girly">
       <div class="theme-grid">
         <div class="theme-chip" data-val="coquette bow ribbon with soft pink ribbons lace pearls and romantic feminine tones">コケット・リボン</div>
         <div class="theme-chip" data-val="coquette cheetah print black bow birthday with animal print pink black and glam tones">チーター柄コケット</div>
@@ -488,8 +505,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🦁 動物・キャラクター</div>
+    <div class="tab-content" id="tab-animal">
       <div class="theme-grid">
         <div class="theme-chip" data-val="dinosaur jungle with colorful friendly dinosaurs tropical leaves and bold playful tones">ダイナソー</div>
         <div class="theme-chip" data-val="jungle safari with lions elephants giraffes zebras and warm earthy safari adventure tones">ジャングル・サファリ</div>
@@ -503,8 +519,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🦕 アドベンチャー・スポーツ・キッズ</div>
+    <div class="tab-content" id="tab-adventure">
       <div class="theme-grid">
         <div class="theme-chip" data-val="cowboy western rodeo birthday with boots hat lasso cactus and warm brown terracotta tones">カウボーイ・ロデオ</div>
         <div class="theme-chip" data-val="camping adventure with campfire lanterns pine trees stars and rustic earthy outdoor tones">キャンプ</div>
@@ -517,8 +532,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">👶 ベビーシャワー</div>
+    <div class="tab-content" id="tab-baby">
       <div class="theme-grid">
         <div class="theme-chip" data-val="gender neutral baby shower with soft sage green cream and warm beige minimal elegant tones">ジェンダーニュートラル</div>
         <div class="theme-chip" data-val="girl baby shower with soft pink blush gold floral details and elegant feminine tones">ガールベビーシャワー</div>
@@ -528,43 +542,23 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🎄 ホリデー・季節イベント</div>
+    <div class="tab-content" id="tab-holiday">
       <div class="theme-grid">
         <div class="theme-chip" data-val="Christmas with classic red green gold holly berries plaid ribbon pine cones and warm festive tones">クリスマス（クラシック）</div>
         <div class="theme-chip" data-val="Christmas with soft neutral white silver sage green eucalyptus and modern minimal Scandinavian tones">クリスマス（モダン）</div>
         <div class="theme-chip" data-val="Christmas with pink blush gold snowflakes glitter and feminine romantic holiday tones">クリスマス（ピンク）</div>
-        <div class="theme-chip" data-val="Halloween with classic orange black spooky pumpkins bats ghosts spiders and jack-o-lantern tones">ハロウィン（スパンキー）</div>
+        <div class="theme-chip" data-val="Halloween with classic orange black spooky pumpkins bats ghosts spiders and jack-o-lantern tones">ハロウィン（スプーキー）</div>
         <div class="theme-chip" data-val="Halloween with soft pastel pink purple cute ghost pumpkin and whimsical friendly tones">ハロウィン（かわいい）</div>
         <div class="theme-chip" data-val="Easter with soft pastel pink lavender mint bunny chick spring flowers and gentle cheerful tones">イースター</div>
         <div class="theme-chip" data-val="Valentine's Day with red pink hearts roses romantic script and sweet love tones">バレンタイン</div>
         <div class="theme-chip" data-val="St. Patrick's Day with green shamrocks gold coins rainbow and festive Irish celebration tones">セントパトリック</div>
-      </div>
-    </div>
-
-    <div class="theme-section">
-      <div class="theme-cat-label">🍂 秋・サンクスギビング</div>
-      <div class="theme-grid">
         <div class="theme-chip" data-val="Thanksgiving with warm orange burgundy gold autumn leaves pumpkins and rustic harvest tones">サンクスギビング</div>
         <div class="theme-chip" data-val="fall autumn harvest with pumpkins sunflowers dried botanicals and warm terracotta rust and sage tones">秋・ハーベスト</div>
         <div class="theme-chip" data-val="fall boho with dried pampas grass warm neutral tones terracotta rust and earthy botanical details">秋ボーホー</div>
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🎉 スペシャルイベント</div>
-      <div class="theme-grid">
-        <div class="theme-chip" data-val="Mother's Day with soft pink blush roses peonies gold script and elegant feminine floral tones">母の日</div>
-        <div class="theme-chip" data-val="Father's Day with navy blue plaid beer barbecue tools and bold masculine classic tones">父の日</div>
-        <div class="theme-chip" data-val="graduation party with wildflower floral arch cap tassel gold script and proud milestone tones">卒業式（フローラル）</div>
-        <div class="theme-chip" data-val="graduation with gold navy diploma cap tassel script and proud milestone celebration tones">卒業式（クラシック）</div>
-        <div class="theme-chip" data-val="Super Bowl football with team colors bold typography football field and energetic sports tones">スーパーボウル</div>
-        <div class="theme-chip" data-val="New Year with gold silver champagne confetti clock midnight and glamorous celebration tones">ニューイヤー</div>
-      </div>
-    </div>
-
-    <div class="theme-section">
-      <div class="theme-cat-label">💒 ウェディング</div>
+    <div class="tab-content" id="tab-wedding">
       <div class="theme-grid">
         <div class="theme-chip" data-val="elegant wedding with white ivory gold floral greenery script typography and timeless romantic tones">エレガントウェディング</div>
         <div class="theme-chip" data-val="boho wedding with dried florals pampas grass macrame earthy neutral and romantic rustic tones">ボーホーウェディング</div>
@@ -575,13 +569,23 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
       </div>
     </div>
 
-    <div class="theme-section">
-      <div class="theme-cat-label">🇺🇸 愛国・アメリカン</div>
+    <div class="tab-content" id="tab-patriotic">
       <div class="theme-grid">
         <div class="theme-chip" data-val="patriotic All American Boy with red white and blue tones American flags fireworks balloons and stars">オールアメリカンボーイ</div>
         <div class="theme-chip" data-val="patriotic All American Girl with red white and blue tones stars stripes sunflowers and feminine details">オールアメリカンガール</div>
         <div class="theme-chip" data-val="patriotic 4th of July red white blue stars and stripes fireworks summer celebration">4th of July</div>
         <div class="theme-chip" data-val="patriotic USA military homecoming with red white blue eagle stars and bold American pride tones">ミリタリー・帰還</div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-event">
+      <div class="theme-grid">
+        <div class="theme-chip" data-val="Mother's Day with soft pink blush roses peonies gold script and elegant feminine floral tones">母の日</div>
+        <div class="theme-chip" data-val="Father's Day with navy blue plaid beer barbecue tools and bold masculine classic tones">父の日</div>
+        <div class="theme-chip" data-val="graduation party with wildflower floral arch cap tassel gold script and proud milestone tones">卒業式（フローラル）</div>
+        <div class="theme-chip" data-val="graduation with gold navy diploma cap tassel script and proud milestone celebration tones">卒業式（クラシック）</div>
+        <div class="theme-chip" data-val="Super Bowl football with team colors bold typography football field and energetic sports tones">スーパーボウル</div>
+        <div class="theme-chip" data-val="New Year with gold silver champagne confetti clock midnight and glamorous celebration tones">ニューイヤー</div>
       </div>
     </div>
 
@@ -622,6 +626,7 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
         <span class="chip" data-val="flat lay on a soft linen fabric surface placed next to a smartphone showing the digital version on screen, eucalyptus sprigs and dried flowers scattered nearby, top-down overhead shot">📱 スマホ＋ドライフラワー</span>
         <span class="chip" data-val="displayed upright on a wooden easel facing forward, elegant and refined presentation">イーゼル立て</span>
         <span class="chip" data-val="leaning casually against a soft neutral wall on a styled surface, slightly angled, facing forward">壁に立てかけ</span>
+        <span class="chip" data-val="leaning upright against a white surface or wall facing directly forward, clean minimal background, card is the main subject">立てかけ（シンプル）</span>
         <span class="chip" data-val="hung elegantly on a clean white wall with a simple ribbon or twine, facing directly forward">壁にかける</span>
       </div>
     </div>
@@ -645,8 +650,19 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
     </div>
 
     <div class="detail-card">
-      <div class="detail-label">小物（複数選択可）</div>
-      <div class="chip-group" id="prop-group">
+      <div class="detail-label">小物の量</div>
+      <div class="chip-group" id="prop-amount-group">
+        <span class="chip active" data-amount="minimal props only, keep it very simple and clean">なし・最小限</span>
+        <span class="chip" data-amount="a few minimal props arranged naturally nearby, simple and understated">少なめ</span>
+        <span class="chip" data-amount="several props arranged beautifully around the card creating a styled lifestyle scene">普通</span>
+        <span class="chip" data-amount="abundant props creating a lush fully styled lifestyle scene with layered details">多め・盛り盛り</span>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-label">小物の種類（複数選択可）</div>
+      <div id="prop-hint" style="display:none;font-size:11.5px;color:#c4808f;margin-bottom:8px;">✨ ピンク枠がテーマにおすすめの小物です</div>
+      <div class="chip-group" id="prop-group" style="flex-wrap:wrap;">
         <span class="chip active" data-val="minimal props only">小物なし</span>
         <span class="chip" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
         <span class="chip" data-val="fresh eucalyptus sprigs">ユーカリ</span>
@@ -726,6 +742,98 @@ function setMode(mode) {
 }
 
 // おまかせ生成
+// テーマ別おすすめ小物マップ
+const themePropMap = {
+  // フローラル・ナチュラル系
+  'wildflower': ['delicate dried flowers and pampas grass', 'fresh eucalyptus sprigs', 'white peonies or roses', 'small wildflowers and greenery sprigs'],
+  'boho': ['delicate dried flowers and pampas grass', 'large dried palm leaf or tropical leaf fanned out in the background', 'fresh eucalyptus sprigs'],
+  'garden': ['white peonies or roses', 'small wildflowers and greenery sprigs', 'fresh eucalyptus sprigs'],
+  'floral': ['white peonies or roses', 'delicate dried flowers and pampas grass', 'fresh eucalyptus sprigs'],
+  'sakura': ['delicate dried flowers and pampas grass', 'small wildflowers and greenery sprigs'],
+  // フルーツ系
+  'strawberry': ['fresh lemon slices and green leaves', 'small wildflowers and greenery sprigs'],
+  'watermelon': ['fresh lemon slices and green leaves', 'tropical green leaves'],
+  'lemon': ['fresh lemon slices and green leaves', 'small wildflowers and greenery sprigs'],
+  'bee': ['small wildflowers and greenery sprigs', 'fresh lemon slices and green leaves'],
+  'cherry': ['small wildflowers and greenery sprigs'],
+  'donut': ['pastel macarons', 'gold confetti sprinkles'],
+  // ファンタジー系
+  'mermaid': ['small seashells and pearl beads', 'small pearl beads scattered'],
+  'unicorn': ['small gold stars and moon', 'gold confetti sprinkles', 'soft pink satin ribbon bow'],
+  'fairy': ['small wildflowers and greenery sprigs', 'delicate dried flowers and pampas grass'],
+  'princess': ['soft pink satin ribbon bow', 'small pearl beads scattered', 'gold confetti sprinkles'],
+  'space': ['small gold stars and moon', 'gold confetti sprinkles'],
+  'rainbow': ['gold confetti sprinkles', 'small pastel balloons slightly blurred'],
+  // サマー・プール系
+  'pool': ['small pastel balloons slightly blurred', 'tropical green leaves'],
+  'tropical': ['tropical green leaves', 'fresh lemon slices and green leaves'],
+  'beach': ['small seashells and pearl beads', 'tropical green leaves'],
+  'axolotl': ['small seashells and pearl beads'],
+  // ガーリー系
+  'coquette': ['soft pink satin ribbon bow', 'small pearl beads scattered', 'white peonies or roses'],
+  'ballet': ['soft pink satin ribbon bow', 'white peonies or roses'],
+  'paris': ['pastel macarons', 'white peonies or roses', 'soft pink satin ribbon bow'],
+  'tea': ['pastel macarons', 'white peonies or roses', 'small wildflowers and greenery sprigs'],
+  'spa': ['white peonies or roses', 'small pearl beads scattered'],
+  // 動物・アドベンチャー系
+  'dinosaur': ['tropical green leaves'],
+  'safari': ['tropical green leaves'],
+  'farm': ['small wildflowers and greenery sprigs'],
+  'cowboy': ['small wildflowers and greenery sprigs'],
+  'camping': ['small candles'],
+  'pirate': [],
+  'racing': [],
+  // ホリデー系
+  'christmas': ['small candles', 'delicate dried flowers and pampas grass'],
+  'halloween': ['small candles', 'small gold stars and moon'],
+  'easter': ['small wildflowers and greenery sprigs', 'delicate dried flowers and pampas grass'],
+  'valentine': ['white peonies or roses', 'soft pink satin ribbon bow', 'small pearl beads scattered'],
+  'thanksgiving': ['small wildflowers and greenery sprigs', 'delicate dried flowers and pampas grass'],
+  // ウェディング系
+  'wedding': ['white envelope with elegant wax seal beside the card', 'white peonies or roses', 'fresh eucalyptus sprigs'],
+  'bridal': ['white peonies or roses', 'soft pink satin ribbon bow', 'small pearl beads scattered'],
+  'bachelorette': ['gold confetti sprinkles', 'soft bokeh fairy lights glowing gently in the background'],
+  // ベビー系
+  'baby': ['delicate dried flowers and pampas grass', 'fresh eucalyptus sprigs'],
+  // 愛国系
+  'patriotic': ['a small American flag pick'],
+  '4th': ['a small American flag pick'],
+  // 誕生日全般
+  'birthday': ['gold confetti sprinkles', 'small pastel balloons slightly blurred', 'delicate dried flowers and pampas grass'],
+  'graduation': ['white peonies or roses', 'delicate dried flowers and pampas grass'],
+};
+
+function getThemeProps(themeVal) {
+  const t = themeVal.toLowerCase();
+  for (const [key, props] of Object.entries(themePropMap)) {
+    if (t.includes(key)) return props;
+  }
+  return ['delicate dried flowers and pampas grass', 'fresh eucalyptus sprigs'];
+}
+
+function updatePropSuggestions(themeVal) {
+  const suggested = getThemeProps(themeVal);
+  const chips = document.querySelectorAll('#prop-group .chip');
+  chips.forEach(chip => {
+    const isSuggested = suggested.includes(chip.dataset.val);
+    chip.style.order = isSuggested ? '0' : '1';
+    if (isSuggested) {
+      chip.style.borderColor = '#c4808f';
+      chip.style.background = 'rgba(255,240,244,0.9)';
+    } else {
+      chip.style.borderColor = '';
+      chip.style.background = '';
+    }
+  });
+  // おすすめラベルを更新
+  const hintEl = document.getElementById('prop-hint');
+  if (hintEl && suggested.length > 0) {
+    hintEl.style.display = 'block';
+  } else if (hintEl) {
+    hintEl.style.display = 'none';
+  }
+}
+
 // テーマ別おまかせ設定
 const themePresets = {
   fantasy: { // マーメイド・ユニコーン・プリンセスなど
@@ -900,22 +1008,27 @@ const state = {
   angle: 'held gently in two hands with soft natural nails facing the camera',
   bg: 'soft linen fabric surface',
   props: ['minimal props only'],
+  propAmount: 'minimal props only, keep it very simple and clean',
   light: 'soft diffused bright overhead natural light',
   size: ''
 };
 
 // 商品タイプ別の構図マッピング
 const typeAngleMap = {
-  'invitation card':    ['手持ち','フラットレイ真上','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','壁＋植物影（主役のみ）','壁＋影・テーブル','フレーム飾り','ラタントレイ平置き','📱 スマホ並べ','📱 スマホ＋ドライフラワー'],
-  'birthday card':      ['手持ち','フラットレイ真上','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','壁＋植物影（主役のみ）','壁＋影・テーブル','📱 スマホ並べ','📱 スマホ＋ドライフラワー'],
-  'baby shower card':   ['手持ち','フラットレイ真上','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','壁＋植物影（主役のみ）','📱 スマホ並べ'],
-  'milestone card':     ['手持ち','フラットレイ真上','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','壁＋植物影（主役のみ）','📱 スマホ並べ','📱 スマホ＋ドライフラワー'],
+  // 招待状系：手持ち・フラットレイ・立てかけ・壁影・スマホ（紐なし）
+  'invitation card':    ['手持ち','フラットレイ真上','立てかけ','立てかけ（シンプル）','壁＋植物影（主役のみ）','壁＋影・テーブル','フレーム飾り','ラタントレイ平置き','📱 スマホ並べ','📱 スマホ＋ドライフラワー'],
+  'birthday card':      ['手持ち','フラットレイ真上','立てかけ','立てかけ（シンプル）','壁＋植物影（主役のみ）','壁＋影・テーブル','📱 スマホ並べ','📱 スマホ＋ドライフラワー'],
+  'baby shower card':   ['手持ち','フラットレイ真上','立てかけ','立てかけ（シンプル）','壁＋植物影（主役のみ）','📱 スマホ並べ'],
+  // マイルストーンは飾る用途なので紐あり
+  'milestone card':     ['手持ち','フラットレイ真上','立てかけ','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','壁＋植物影（主役のみ）','📱 スマホ並べ','📱 スマホ＋ドライフラワー'],
+  // タグ系：バッグ・ボックス・紐
   'thank you gift tag': ['ギフトバッグ','クラフトボックス','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','フラットレイ真上'],
   'gift tag':           ['ギフトバッグ','クラフトボックス','麻紐＋クリップ（1枚）','麻紐＋クリップ（2枚並び）','フラットレイ真上'],
+  // バナー・サイン系：壁・イーゼル
   'party banner':       ['壁掛け','壁にかける','壁に立てかけ','イーゼル立て'],
-  'welcome sign':       ['イーゼル立て','壁に立てかけ','壁掛け','壁にかける'],
+  'welcome sign':       ['イーゼル立て','壁に立てかけ','壁掛け','壁にかける','立てかけ（シンプル）'],
   'cupcake topper':     ['フラットレイ真上','手持ち','📱 スマホ並べ'],
-  'table sign':         ['イーゼル立て','壁に立てかけ','立てかけ','フラットレイ真上'],
+  'table sign':         ['イーゼル立て','壁に立てかけ','立てかけ','立てかけ（シンプル）','フラットレイ真上'],
 };
 
 // 商品タイプ別ヒントメッセージ
@@ -969,6 +1082,14 @@ document.querySelectorAll('#type-grid .grid-card').forEach(card => {
   });
 });
 
+// タブ切り替え
+function switchTab(tabId) {
+  document.querySelectorAll('.theme-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tabId}')"]`).classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+}
+
 // 画面2：テーマ
 document.querySelectorAll('#screen2 .theme-chip').forEach(chip => {
   chip.addEventListener('click', () => {
@@ -976,6 +1097,7 @@ document.querySelectorAll('#screen2 .theme-chip').forEach(chip => {
     chip.classList.add('active');
     state.theme = chip.dataset.val;
     document.getElementById('next2').disabled = false;
+    updatePropSuggestions(chip.dataset.val);
   });
 });
 
@@ -1001,6 +1123,15 @@ function setupMulti(id, key) {
 }
 
 setupSingle('angle-group', 'angle');
+
+// 小物量
+document.getElementById('prop-amount-group').querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.getElementById('prop-amount-group').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    state.propAmount = chip.dataset.amount;
+  });
+});
 setupSingle('bg-group', 'bg');
 setupMulti('prop-group', 'props');
 setupSingle('light-group', 'light');
@@ -1024,7 +1155,8 @@ function goTo(n) {
 }
 
 function generate() {
-  const props = state.props.length > 0 ? state.props.join(', ') : 'minimal props only';
+  const propItems = state.props.filter(p => p !== 'minimal props only').join(', ');
+  const props = propItems ? `${state.propAmount}. Props to use: ${propItems}` : state.propAmount;
   const sizeStr = state.size ? ` (${state.size})` : '';
   document.getElementById('output').textContent =
 `⚠️ MOST IMPORTANT INSTRUCTION: The attached image is the MASTER DESIGN. You MUST reproduce it with 100% faithful accuracy. Do NOT change, reinterpret, or "improve" any design element. Preserve exactly: all colors, fonts, typography, layout, illustrations, patterns, decorative elements, and text content shown in the attached image. If you cannot reproduce it faithfully, output nothing.
