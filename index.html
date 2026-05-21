@@ -261,6 +261,17 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
 .theme-tab:hover { border-color: var(--rose); color: var(--rose); }
 .theme-tab.active { background: var(--rose); border-color: var(--rose); color: #fff; box-shadow: 0 2px 8px rgba(196,128,143,0.3); }
 .tab-content { display: none !important; }
+  .prop-tab { padding: 5px 10px; border-radius: var(--radius); border: 1.5px solid var(--border); background: var(--white); color: var(--text-sub); font-family: 'Nunito', sans-serif; font-size: 11.5px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .prop-tab:hover { border-color: var(--rose); color: var(--rose); }
+  .prop-tab.active { background: var(--rose); border-color: var(--rose); color: #fff; }
+  .prop-tab-content { display: none; }
+  .prop-tab-content.active { display: block; }
+  .prop-chip { padding: 8px 16px; border-radius: var(--radius); border: 1.5px solid var(--border); background: var(--white); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; display: inline-block; margin: 3px; position: relative; }
+  .prop-chip.active::after { content: ' ✓'; font-weight: 800; }
+  .prop-chip:hover { border-color: var(--rose); background: rgba(255,240,244,0.9); }
+  .prop-chip.suggested { border-color: #c4808f; border-width: 2px; background: rgba(255,240,244,0.6); }
+  .prop-chip.suggested.active { background: #c4808f; color: #fff !important; }
+  .prop-chip.active { background: #c4808f; border-color: #c4808f; color: #fff !important; font-weight: 700; box-shadow: 0 3px 10px rgba(196,128,143,0.4); }
 .tab-content.active { display: block !important; }
 @media (max-width: 480px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -623,7 +634,6 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
         <span class="chip" data-val="leaning upright against a soft warm neutral wall with beautiful botanical leaf shadows falling across the wall behind, card facing directly forward, no props, card is the only subject">壁＋植物影（主役のみ）</span>
         <span class="chip" data-val="placed slightly angled on a clean surface leaning against a soft wall with dappled botanical leaf shadow patterns across the background, portrait orientation facing camera">壁＋影・テーブル</span>
         <span class="chip" data-val="flat lay on a soft linen surface placed beside a modern smartphone showing the same design on screen, top-down shot, minimal styling, lifestyle product mockup">📱 スマホ並べ</span>
-        <span class="chip" data-val="flat lay on a soft linen fabric surface placed next to a smartphone showing the digital version on screen, eucalyptus sprigs and dried flowers scattered nearby, top-down overhead shot">📱 スマホ＋ドライフラワー</span>
         <span class="chip" data-val="displayed upright on a wooden easel facing forward, elegant and refined presentation">イーゼル立て</span>
         <span class="chip" data-val="leaning casually against a soft neutral wall on a styled surface, slightly angled, facing forward">壁に立てかけ</span>
         <span class="chip" data-val="leaning upright against a white surface or wall facing directly forward, clean minimal background, card is the main subject">立てかけ（シンプル）</span>
@@ -661,29 +671,100 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
 
     <div class="detail-card">
       <div class="detail-label">小物の種類（複数選択可）</div>
-      <div id="prop-hint" style="display:none;font-size:11.5px;color:#c4808f;margin-bottom:8px;">✨ ピンク枠がテーマにおすすめの小物です</div>
-      <div class="chip-group" id="prop-group" style="flex-wrap:wrap;">
-        <span class="chip active" data-val="minimal props only">小物なし</span>
-        <span class="chip" data-val="delicate dried flowers and pampas grass">ドライフラワー</span>
-        <span class="chip" data-val="fresh eucalyptus sprigs">ユーカリ</span>
-        <span class="chip" data-val="white peonies or roses">白いピオニー・バラ</span>
-        <span class="chip" data-val="small wildflowers and greenery sprigs">野の花・グリーン</span>
-        <span class="chip" data-val="soft pink satin ribbon bow">ピンクリボン</span>
-        <span class="chip" data-val="small pearl beads scattered">パールビーズ</span>
-        <span class="chip" data-val="gold confetti sprinkles">ゴールドコンフェッティ</span>
-        <span class="chip" data-val="white envelope with elegant wax seal beside the card">封筒＋ワックスシール</span>
-        <span class="chip" data-val="large dried palm leaf or tropical leaf fanned out in the background">ドライパームリーフ</span>
-        <span class="chip" data-val="soft bokeh fairy lights glowing gently in the background">ボケたイルミネーション</span>
-        <span class="chip" data-val="small seashells and pearl beads">貝殻・パール</span>
-        <span class="chip" data-val="small pastel balloons slightly blurred">パステル風船</span>
-        <span class="chip" data-val="pastel macarons">マカロン</span>
-        <span class="chip" data-val="small candles">小さなキャンドル</span>
-        <span class="chip" data-val="a small American flag pick">星条旗ピック</span>
-        <span class="chip" data-val="small gold stars and moon">ゴールド星・月</span>
-        <span class="chip" data-val="tropical green leaves">トロピカルリーフ</span>
-        <span class="chip" data-val="fresh lemon slices and green leaves">レモンスライス</span>
+      <div id="prop-hint" style="font-size:11.5px;color:#c4808f;margin-bottom:10px;">✨ テーマに合った小物が表示されています。他の小物はタブで選べます</div>
+
+      <!-- 小物タブ -->
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+        <button class="prop-tab active" onclick="switchPropTab('recommended')">✨ おすすめ</button>
+        <button class="prop-tab" onclick="switchPropTab('green')">🌿 グリーン</button>
+        <button class="prop-tab" onclick="switchPropTab('flower')">🌸 フラワー</button>
+        <button class="prop-tab" onclick="switchPropTab('fruit')">🍓 フルーツ</button>
+        <button class="prop-tab" onclick="switchPropTab('elegant')">💎 エレガント</button>
+        <button class="prop-tab" onclick="switchPropTab('party')">🎉 パーティー</button>
+        <button class="prop-tab" onclick="switchPropTab('seasonal')">🎄 シーズナル</button>
+        <button class="prop-tab" onclick="switchPropTab('none')">なし</button>
       </div>
-      <p class="tip">複数タップで選択できます</p>
+
+      <!-- おすすめ（テーマ連動） -->
+      <div class="prop-tab-content active" id="ptab-recommended">
+        <div class="chip-group" id="prop-group-recommended"></div>
+        <p class="tip" style="margin-top:6px;">テーマを選ぶと自動で更新されます</p>
+      </div>
+
+      <!-- グリーン系 -->
+      <div class="prop-tab-content" id="ptab-green">
+        <div class="chip-group">
+          <span class="prop-chip" data-val="fresh eucalyptus sprigs">ユーカリ</span>
+          <span class="prop-chip" data-val="delicate dried flowers and pampas grass">ドライフラワー＋パンパス</span>
+          <span class="prop-chip" data-val="large dried palm leaf or tropical leaf fanned out in the background">ドライパームリーフ</span>
+          <span class="prop-chip" data-val="tropical green leaves">トロピカルリーフ</span>
+          <span class="prop-chip" data-val="small wildflowers and greenery sprigs">野の花・グリーン</span>
+        </div>
+      </div>
+
+      <!-- フラワー系 -->
+      <div class="prop-tab-content" id="ptab-flower">
+        <div class="chip-group">
+          <span class="prop-chip" data-val="white peonies or roses">白いピオニー・バラ</span>
+          <span class="prop-chip" data-val="soft pink peonies or roses">ピンクのピオニー・バラ</span>
+          <span class="prop-chip" data-val="small wildflowers scattered naturally">ワイルドフラワー</span>
+          <span class="prop-chip" data-val="dried boho florals and cotton stems">ボーホードライフローラル</span>
+        </div>
+      </div>
+
+      <!-- フルーツ系 -->
+      <div class="prop-tab-content" id="ptab-fruit">
+        <div class="chip-group">
+          <span class="prop-chip" data-val="fresh lemon slices and green leaves">レモンスライス</span>
+          <span class="prop-chip" data-val="fresh strawberries and berries scattered nearby">ストロベリー・ベリー</span>
+          <span class="prop-chip" data-val="fresh watermelon slice and tropical leaves">スイカスライス</span>
+          <span class="prop-chip" data-val="fresh cherries and green leaves">チェリー</span>
+          <span class="prop-chip" data-val="tropical fruits and leaves pineapple and hibiscus">トロピカルフルーツ</span>
+        </div>
+      </div>
+
+      <!-- エレガント系 -->
+      <div class="prop-tab-content" id="ptab-elegant">
+        <div class="chip-group">
+          <span class="prop-chip" data-val="white envelope with elegant wax seal beside the card">封筒＋ワックスシール</span>
+          <span class="prop-chip" data-val="small pearl beads scattered">パールビーズ</span>
+          <span class="prop-chip" data-val="soft pink satin ribbon bow">ピンクリボン</span>
+          <span class="prop-chip" data-val="white satin ribbon bow">白リボン</span>
+          <span class="prop-chip" data-val="pastel macarons arranged nearby">マカロン</span>
+          <span class="prop-chip" data-val="small seashells and pearl beads">貝殻・パール</span>
+        </div>
+      </div>
+
+      <!-- パーティー系 -->
+      <div class="prop-tab-content" id="ptab-party">
+        <div class="chip-group">
+          <span class="prop-chip" data-val="small pastel balloons slightly blurred in background">パステル風船</span>
+          <span class="prop-chip" data-val="gold confetti sprinkles scattered">ゴールドコンフェッティ</span>
+          <span class="prop-chip" data-val="soft bokeh fairy lights glowing gently in background">ボケたイルミネーション</span>
+          <span class="prop-chip" data-val="small gold stars and moon scattered">ゴールド星・月</span>
+          <span class="prop-chip" data-val="colorful confetti and streamers">カラフルコンフェッティ</span>
+        </div>
+      </div>
+
+      <!-- シーズナル系 -->
+      <div class="prop-tab-content" id="ptab-seasonal">
+        <div class="chip-group">
+          <span class="prop-chip" data-val="small candles with warm glow">キャンドル</span>
+          <span class="prop-chip" data-val="a small American flag pick">星条旗ピック</span>
+          <span class="prop-chip" data-val="small pine cones and holiday greenery">松ぼっくり・グリーナリー</span>
+          <span class="prop-chip" data-val="small pumpkins and autumn leaves">かぼちゃ・秋の葉</span>
+          <span class="prop-chip" data-val="easter eggs and spring flowers">イースターエッグ・春の花</span>
+        </div>
+      </div>
+
+      <!-- なし -->
+      <div class="prop-tab-content" id="ptab-none">
+        <div class="chip-group">
+          <span class="prop-chip active" data-val="minimal props only">小物なし（クリーン）</span>
+        </div>
+      </div>
+
+      <p class="tip" style="margin-top:8px;">複数タップで選択できます</p>
     </div>
 
     <div class="detail-card">
@@ -813,25 +894,99 @@ function getThemeProps(themeVal) {
 
 function updatePropSuggestions(themeVal) {
   const suggested = getThemeProps(themeVal);
-  const chips = document.querySelectorAll('#prop-group .chip');
-  chips.forEach(chip => {
-    const isSuggested = suggested.includes(chip.dataset.val);
-    chip.style.order = isSuggested ? '0' : '1';
-    if (isSuggested) {
-      chip.style.borderColor = '#c4808f';
-      chip.style.background = 'rgba(255,240,244,0.9)';
-    } else {
-      chip.style.borderColor = '';
-      chip.style.background = '';
-    }
-  });
-  // おすすめラベルを更新
-  const hintEl = document.getElementById('prop-hint');
-  if (hintEl && suggested.length > 0) {
-    hintEl.style.display = 'block';
-  } else if (hintEl) {
-    hintEl.style.display = 'none';
+  const container = document.getElementById('prop-group-recommended');
+  if (!container) return;
+
+  // おすすめチップを動的生成
+  container.innerHTML = '';
+
+  // まず「なし」を追加
+  const noneChip = document.createElement('span');
+  noneChip.className = 'prop-chip' + (state.props.includes('minimal props only') ? ' active' : '');
+  noneChip.dataset.val = 'minimal props only';
+  noneChip.textContent = '小物なし';
+  container.appendChild(noneChip);
+
+  if (suggested.length === 0) {
+    const msg = document.createElement('p');
+    msg.className = 'tip';
+    msg.textContent = 'このテーマは他のタブから小物を選んでください';
+    container.appendChild(msg);
+  } else {
+    suggested.forEach(val => {
+      // 日本語ラベルを逆引き
+      const labelMap = {
+        'fresh eucalyptus sprigs': 'ユーカリ',
+        'delicate dried flowers and pampas grass': 'ドライフラワー＋パンパス',
+        'large dried palm leaf or tropical leaf fanned out in the background': 'ドライパームリーフ',
+        'tropical green leaves': 'トロピカルリーフ',
+        'small wildflowers and greenery sprigs': '野の花・グリーン',
+        'white peonies or roses': '白いピオニー・バラ',
+        'soft pink peonies or roses': 'ピンクのピオニー・バラ',
+        'small wildflowers scattered naturally': 'ワイルドフラワー',
+        'dried boho florals and cotton stems': 'ボーホードライフローラル',
+        'fresh lemon slices and green leaves': 'レモンスライス',
+        'fresh strawberries and berries scattered nearby': 'ストロベリー・ベリー',
+        'fresh watermelon slice and tropical leaves': 'スイカスライス',
+        'fresh cherries and green leaves': 'チェリー',
+        'tropical fruits and leaves pineapple and hibiscus': 'トロピカルフルーツ',
+        'white envelope with elegant wax seal beside the card': '封筒＋ワックスシール',
+        'small pearl beads scattered': 'パールビーズ',
+        'soft pink satin ribbon bow': 'ピンクリボン',
+        'white satin ribbon bow': '白リボン',
+        'pastel macarons arranged nearby': 'マカロン',
+        'small seashells and pearl beads': '貝殻・パール',
+        'small pastel balloons slightly blurred in background': 'パステル風船',
+        'gold confetti sprinkles scattered': 'ゴールドコンフェッティ',
+        'soft bokeh fairy lights glowing gently in background': 'ボケたイルミネーション',
+        'small gold stars and moon scattered': 'ゴールド星・月',
+        'colorful confetti and streamers': 'カラフルコンフェッティ',
+        'small candles with warm glow': 'キャンドル',
+        'a small American flag pick': '星条旗ピック',
+        'small pine cones and holiday greenery': '松ぼっくり・グリーナリー',
+        'small pumpkins and autumn leaves': 'かぼちゃ・秋の葉',
+        'easter eggs and spring flowers': 'イースターエッグ・春の花',
+      };
+      const chip = document.createElement('span');
+      chip.className = 'prop-chip suggested' + (state.props.includes(val) ? ' active' : '');
+      chip.dataset.val = val;
+      chip.textContent = labelMap[val] || val;
+      container.appendChild(chip);
+    });
   }
+
+  // イベント再登録
+  container.querySelectorAll('.prop-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const v = chip.dataset.val;
+      if (v === 'minimal props only') {
+        document.querySelectorAll('.prop-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        state.props = ['minimal props only'];
+      } else {
+        document.querySelectorAll('.prop-chip[data-val="minimal props only"]').forEach(c => c.classList.remove('active'));
+        state.props = state.props.filter(p => p !== 'minimal props only');
+        chip.classList.toggle('active');
+        // 他タブの同じval持つチップも同期
+        document.querySelectorAll(`.prop-chip[data-val="${v}"]`).forEach(c => {
+          if (chip.classList.contains('active')) c.classList.add('active');
+          else c.classList.remove('active');
+        });
+        if (chip.classList.contains('active')) {
+          if (!state.props.includes(v)) state.props.push(v);
+        } else {
+          state.props = state.props.filter(p => p !== v);
+        }
+        if (state.props.length === 0) {
+          state.props = ['minimal props only'];
+          document.querySelectorAll('.prop-chip[data-val="minimal props only"]').forEach(c => c.classList.add('active'));
+        }
+      }
+    });
+  });
+
+  // おすすめタブに切り替え
+  switchPropTab('recommended');
 }
 
 // テーマ別おまかせ設定
@@ -1123,6 +1278,44 @@ function setupMulti(id, key) {
 }
 
 setupSingle('angle-group', 'angle');
+
+// 小物タブ切り替え
+function switchPropTab(tabId) {
+  document.querySelectorAll('.prop-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.prop-tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="switchPropTab('${tabId}')"]`).classList.add('active');
+  document.getElementById('ptab-' + tabId).classList.add('active');
+}
+
+// 小物選択（全タブ共通）
+function initPropChips() {
+  document.querySelectorAll('.prop-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chip.dataset.val;
+      if (val === 'minimal props only') {
+        // なしを選んだら他を全解除
+        document.querySelectorAll('.prop-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        state.props = ['minimal props only'];
+      } else {
+        // なしチップを解除
+        document.querySelectorAll('.prop-chip[data-val="minimal props only"]').forEach(c => c.classList.remove('active'));
+        state.props = state.props.filter(p => p !== 'minimal props only');
+        chip.classList.toggle('active');
+        if (chip.classList.contains('active')) {
+          if (!state.props.includes(val)) state.props.push(val);
+        } else {
+          state.props = state.props.filter(p => p !== val);
+        }
+        if (state.props.length === 0) {
+          state.props = ['minimal props only'];
+          document.querySelectorAll('.prop-chip[data-val="minimal props only"]').forEach(c => c.classList.add('active'));
+        }
+      }
+    });
+  });
+}
+initPropChips();
 
 // 小物量
 document.getElementById('prop-amount-group').querySelectorAll('.chip').forEach(chip => {
