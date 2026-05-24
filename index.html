@@ -424,6 +424,15 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
   <div class="screen" id="screen2">
     <div class="section-title">テーマを選んでください</div>
 
+    <!-- テーマ検索 -->
+    <div style="position:relative;margin-bottom:1rem;">
+      <input type="text" id="theme-search" placeholder="🔍 テーマを検索（例：ハロウィン、strawberry）" oninput="searchThemes(this.value)" style="width:100%;padding:10px 16px;border-radius:var(--radius);border:1.5px solid var(--border);font-family:'Nunito',sans-serif;font-size:13px;color:var(--text);background:var(--white);box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#c4808f'" onblur="this.style.borderColor=''">
+      <div id="theme-search-results" style="display:none;margin-top:8px;background:var(--white);border:1.5px solid #ecd8ec;border-radius:14px;padding:10px;box-shadow:0 4px 16px rgba(180,140,200,0.15);">
+        <p style="font-size:11px;color:#c4808f;margin-bottom:6px;">検索結果</p>
+        <div class="theme-grid" id="theme-search-grid"></div>
+      </div>
+    </div>
+
     <!-- タブ -->
     <div id="theme-tabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;">
       <button class="theme-tab active" onclick="switchTab('birthday')">🎂 誕生日</button>
@@ -611,9 +620,13 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
     <div class="section-title">スタイルを設定してください</div>
 
     <div class="detail-card">
-      <div class="detail-label">商品サイズ（任意）</div>
-      <input type="text" class="size-input" id="size-input" placeholder="例：5x7 inch、A5、4x6 inch、正方形" oninput="state.size=this.value;generate();">
-      <p class="tip">入力するとプロンプトにサイズが反映されます</p>
+      <div class="detail-label">商品サイズ</div>
+      <div class="chip-group" id="size-group" style="margin-bottom:8px;"></div>
+      <div id="size-custom-wrap" style="display:none;margin-top:6px;">
+        <input type="text" class="size-input" id="size-input" placeholder="例：18x24 inch、A3" oninput="state.size=this.value;">
+        <p class="tip">サイズを入力してください</p>
+      </div>
+      <p class="tip" id="size-tip">商品タイプを選ぶと選択肢が変わります</p>
     </div>
 
     <div id="type-hint" style="display:none;background:rgba(255,240,244,0.9);border:1.5px solid #f0c0d0;border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:0.8rem;font-size:13px;color:#c4607a;line-height:1.6;"></div>
@@ -670,8 +683,11 @@ footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--t
     </div>
 
     <div class="detail-card">
-      <div class="detail-label">小物の種類（複数選択可）</div>
-      <div id="prop-hint" style="font-size:11.5px;color:#c4808f;margin-bottom:10px;">✨ テーマに合った小物が表示されています。他の小物はタブで選べます</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div class="detail-label" style="margin-bottom:0;">小物の種類（複数選択可）</div>
+        <button onclick="autoSelectProps()" style="padding:5px 12px;border-radius:var(--radius);border:1.5px solid #c4808f;background:rgba(255,240,244,0.9);color:#c4808f;font-family:'Nunito',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;">✨ テーマに合わせる</button>
+      </div>
+      <div id="prop-hint" style="font-size:11.5px;color:#c4808f;margin-bottom:10px;display:none;">✨ テーマに合った小物を自動で選びました</div>
 
       <!-- 小物タブ -->
       <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
@@ -1049,11 +1065,23 @@ const themePresets = {
 
 function getPreset(keyword) {
   const k = keyword.toLowerCase();
-  if (k.includes('マーメイド') || k.includes('ユニコーン') || k.includes('プリンセス') || k.includes('フェアリー') || k.includes('スペース') || k.includes('レインボー') || k.includes('mermaid') || k.includes('unicorn')) return themePresets.fantasy;
+  // テーマ別に細かく対応
+  if (k.includes('マーメイド') || k.includes('mermaid')) return themePresets.mermaid;
+  if (k.includes('ユニコーン') || k.includes('unicorn')) return themePresets.unicorn;
+  if (k.includes('ハロウィン') || k.includes('halloween') || k.includes('spooky') || k.includes('boo')) return themePresets.halloween;
+  if (k.includes('クリスマス') || k.includes('christmas')) return themePresets.christmas;
+  if (k.includes('バレンタイン') || k.includes('valentine')) return themePresets.valentine;
+  if (k.includes('イースター') || k.includes('easter')) return themePresets.easter;
+  if (k.includes('秋') || k.includes('サンクスギビング') || k.includes('thanksgiving') || k.includes('fall') || k.includes('harvest')) return themePresets.fall;
+  if (k.includes('ストロベリー') || k.includes('strawberry') || k.includes('いちご') || k.includes('フルーツ') || k.includes('fruit') || k.includes('ベリー') || k.includes('berry')) return themePresets.strawberry;
+  if (k.includes('プール') || k.includes('pool') || k.includes('トロピカル') || k.includes('tropical') || k.includes('ルアウ') || k.includes('luau')) return themePresets.tropical;
   if (k.includes('ウェディング') || k.includes('ブライダル') || k.includes('wedding') || k.includes('bridal')) return themePresets.elegant;
-  if (k.includes('ガーデン') || k.includes('フローラル') || k.includes('花') || k.includes('ボーホー') || k.includes('garden') || k.includes('floral')) return themePresets.floral;
-  if (k.includes('クリスマス') || k.includes('ハロウィン') || k.includes('バレンタイン') || k.includes('イースター') || k.includes('母の日') || k.includes('父の日') || k.includes('christmas') || k.includes('halloween')) return themePresets.holiday;
-  if (k.includes('ダイナソー') || k.includes('恐竜') || k.includes('カウボーイ') || k.includes('パイレーツ') || k.includes('キャンプ') || k.includes('スーパーヒーロー')) return themePresets.kids;
+  if (k.includes('ガーデン') || k.includes('フローラル') || k.includes('flower') || k.includes('floral') || k.includes('ボーホー') || k.includes('boho')) return themePresets.floral;
+  if (k.includes('愛国') || k.includes('4th') || k.includes('patriot') || k.includes('アメリカ')) return themePresets.patriotic;
+  if (k.includes('ベビー') || k.includes('baby')) return themePresets.baby;
+  if (k.includes('ダイナソー') || k.includes('dinosaur') || k.includes('恐竜') || k.includes('カウボーイ') || k.includes('cowboy') || k.includes('パイレーツ') || k.includes('pirate') || k.includes('キャンプ') || k.includes('camp') || k.includes('スーパーヒーロー') || k.includes('superhero')) return themePresets.kids;
+  if (k.includes('プリンセス') || k.includes('princess') || k.includes('フェアリー') || k.includes('fairy') || k.includes('スペース') || k.includes('space')) return themePresets.fantasy;
+  if (k.includes('母の日') || k.includes('father') || k.includes('父の日') || k.includes('mother') || k.includes('卒業') || k.includes('graduation')) return themePresets.floral;
   return themePresets.default;
 }
 
@@ -1118,6 +1146,20 @@ function detectThemeAndType(keyword) {
   return { type, theme };
 }
 
+// 商品タイプ別のおすすめ構図（おまかせ用・typeAngleMapから適切なものを選ぶ）
+const typeAutoAngles = {
+  'invitation card':    ['held gently in two hands with soft natural nails facing the camera', 'leaning upright against a simple white surface or box, facing directly forward, card large and prominent, minimal background, clean and simple styling', 'flat lay on a natural woven rattan tray with warm muted earthy tones, soft shadows cast across the woven texture, slightly worn and organic looking, not too bright or saturated, slightly angled facing up from above'],
+  'birthday card':      ['held gently in two hands with soft natural nails facing the camera', 'leaning upright against a simple white surface or box, facing directly forward, card large and prominent, minimal background, clean and simple styling'],
+  'baby shower card':   ['held gently in two hands with soft natural nails facing the camera', 'leaning upright against a simple white surface or box, facing directly forward, card large and prominent, minimal background, clean and simple styling'],
+  'milestone card':     ['held gently in two hands with soft natural nails facing the camera', 'flat lay on a soft linen surface placed beside a modern smartphone showing the same design on screen, top-down shot, minimal styling, lifestyle product mockup'],
+  'thank you gift tag': ["attached to a clean white gift bag with rope handles tied with baker's twine, facing directly forward and clearly visible. Clean minimal white or light neutral background behind the bag. No extra flowers or decorations in the background", 'flat lay on a natural woven rattan tray with warm muted earthy tones, soft shadows cast across the woven texture, slightly worn and organic looking, not too bright or saturated, slightly angled facing up from above'],
+  'gift tag':           ["attached to a clean white gift bag with rope handles tied with baker's twine, facing directly forward and clearly visible. Clean minimal white or light neutral background behind the bag. No extra flowers or decorations in the background"],
+  'party banner':       ['hung on a clean white wall facing directly forward, the card large and prominent filling most of the frame, shot from a straight front angle. The card is the clear main subject', 'displayed upright on a wooden easel facing forward, elegant and refined presentation'],
+  'welcome sign':       ['displayed upright on a wooden easel facing forward, elegant and refined presentation', 'leaning casually against a soft neutral wall on a styled surface, slightly angled, facing forward'],
+  'cupcake topper':     ['flat lay on a soft linen surface, top-down shot, minimal styling'],
+  'table sign':         ['displayed upright on a wooden easel facing forward, elegant and refined presentation', 'leaning upright against a simple white surface or box, facing directly forward, card large and prominent, minimal background, clean and simple styling'],
+};
+
 function generateAuto() {
   const keyword = document.getElementById('auto-keyword').value.trim();
   if (!keyword) {
@@ -1126,7 +1168,11 @@ function generateAuto() {
   }
   const { type, theme } = detectThemeAndType(keyword);
   const preset = getPreset(keyword);
-  const angle = preset.angles[Math.floor(Math.random() * preset.angles.length)];
+
+  // 商品タイプ別に適切な構図を選ぶ
+  const typeAngles = typeAutoAngles[type] || typeAutoAngles['invitation card'];
+  const angle = typeAngles[Math.floor(Math.random() * typeAngles.length)];
+
   const bg = preset.bgs[Math.floor(Math.random() * preset.bgs.length)];
   const prop = preset.props[Math.floor(Math.random() * preset.props.length)];
   const light = preset.lights[Math.floor(Math.random() * preset.lights.length)];
@@ -1168,6 +1214,57 @@ const state = {
   size: ''
 };
 
+// 商品タイプ別サイズ選択肢
+const typeSizeMap = {
+  'invitation card':    ['5x7 inch', '4x6 inch', 'A5', '正方形 (5x5 inch)', 'その他'],
+  'birthday card':      ['5x7 inch', '4x6 inch', 'A5', '正方形 (5x5 inch)', 'その他'],
+  'baby shower card':   ['5x7 inch', '4x6 inch', 'A5', 'その他'],
+  'milestone card':     ['5x7 inch', '8x10 inch', 'A4', 'A5', 'その他'],
+  'thank you gift tag': ['2x3.5 inch', '3x3 inch', '2x2 inch', 'その他'],
+  'gift tag':           ['2x3.5 inch', '3x3 inch', '2x2 inch', 'その他'],
+  'party banner':       ['5x7 inch', '8x10 inch', '18x24 inch', 'その他'],
+  'welcome sign':       ['18x24 inch', '24x36 inch', '16x20 inch', '12x18 inch', 'その他'],
+  'cupcake topper':     ['2 inch 丸型', '2.5 inch 丸型', 'その他'],
+  'table sign':         ['5x7 inch', '4x6 inch', '8x10 inch', 'その他'],
+};
+
+function updateSizeOptions(type) {
+  const sizes = typeSizeMap[type] || ['5x7 inch', '4x6 inch', 'A5', 'その他'];
+  const group = document.getElementById('size-group');
+  const customWrap = document.getElementById('size-custom-wrap');
+  const tip = document.getElementById('size-tip');
+  if (tip) tip.style.display = 'none';
+
+  group.innerHTML = sizes.map(s =>
+    `<span class="chip" data-size="${s}" onclick="selectSize(this, '${s}')">${s}</span>`
+  ).join('');
+
+  // デフォルトで最初のサイズを選択
+  const first = group.querySelector('.chip');
+  if (first) {
+    first.classList.add('active');
+    if (sizes[0] === 'その他') {
+      customWrap.style.display = 'block';
+    } else {
+      state.size = sizes[0];
+      customWrap.style.display = 'none';
+    }
+  }
+}
+
+function selectSize(el, size) {
+  document.querySelectorAll('#size-group .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const customWrap = document.getElementById('size-custom-wrap');
+  if (size === 'その他') {
+    customWrap.style.display = 'block';
+    state.size = document.getElementById('size-input').value;
+  } else {
+    customWrap.style.display = 'none';
+    state.size = size;
+  }
+}
+
 // 商品タイプ別の構図マッピング
 const typeAngleMap = {
   // 招待状系：手持ち・フラットレイ・立てかけ・壁影・スマホ（紐なし）
@@ -1195,6 +1292,7 @@ const typeHints = {
 function filterAngles(type) {
   const allowed = typeAngleMap[type] || null;
   const chips = document.querySelectorAll('#angle-group .chip');
+  
   chips.forEach(chip => {
     if (!allowed) {
       chip.style.display = '';
@@ -1202,15 +1300,13 @@ function filterAngles(type) {
       chip.style.display = allowed.includes(chip.textContent.trim()) ? '' : 'none';
     }
   });
-  // 非表示のチップがactiveなら最初の表示チップをactiveに
-  const activeChip = document.querySelector('#angle-group .chip.active');
-  if (activeChip && activeChip.style.display === 'none') {
-    const firstVisible = document.querySelector('#angle-group .chip:not([style*="none"])');
-    if (firstVisible) {
-      document.querySelectorAll('#angle-group .chip').forEach(c => c.classList.remove('active'));
-      firstVisible.classList.add('active');
-      state.angle = firstVisible.dataset.val;
-    }
+
+  // 常に表示されている最初のチップをactiveに設定（手持ちが残らないように）
+  document.querySelectorAll('#angle-group .chip').forEach(c => c.classList.remove('active'));
+  const firstVisible = document.querySelector('#angle-group .chip:not([style*="none"])');
+  if (firstVisible) {
+    firstVisible.classList.add('active');
+    state.angle = firstVisible.dataset.val;
   }
 }
 
@@ -1234,8 +1330,53 @@ document.querySelectorAll('#type-grid .grid-card').forEach(card => {
     document.getElementById('next1').disabled = false;
     filterAngles(card.dataset.val);
     showTypeHint(card.dataset.val);
+    updateSizeOptions(card.dataset.val);
   });
 });
+
+// テーマ検索
+function searchThemes(query) {
+  const q = query.trim().toLowerCase();
+  const resultsEl = document.getElementById('theme-search-results');
+  const gridEl = document.getElementById('theme-search-grid');
+  
+  if (!q) {
+    resultsEl.style.display = 'none';
+    return;
+  }
+
+  // 全テーマチップから検索
+  const allChips = document.querySelectorAll('#screen2 .theme-chip');
+  const matches = [];
+  allChips.forEach(chip => {
+    const label = chip.textContent.toLowerCase();
+    const val = chip.dataset.val.toLowerCase();
+    if (label.includes(q) || val.includes(q)) {
+      matches.push({ label: chip.textContent, val: chip.dataset.val });
+    }
+  });
+
+  if (matches.length === 0) {
+    gridEl.innerHTML = '<p style="font-size:12px;color:#b0a0a0;padding:4px;">見つかりませんでした。タブから選んでください。</p>';
+  } else {
+    gridEl.innerHTML = matches.map(m => 
+      `<div class="theme-chip${state.theme === m.val ? ' active' : ''}" data-val="${m.val}" onclick="selectThemeFromSearch('${m.val}', this)">${m.label}</div>`
+    ).join('');
+  }
+  resultsEl.style.display = 'block';
+}
+
+function selectThemeFromSearch(val, el) {
+  document.querySelectorAll('#screen2 .theme-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#theme-search-grid .theme-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  state.theme = val;
+  document.getElementById('next2').disabled = false;
+  updatePropSuggestions(val);
+  // 検索欄をクリア
+  document.getElementById('theme-search').value = '';
+  document.getElementById('theme-search-results').style.display = 'none';
+}
 
 // タブ切り替え
 function switchTab(tabId) {
@@ -1278,6 +1419,36 @@ function setupMulti(id, key) {
 }
 
 setupSingle('angle-group', 'angle');
+
+// テーマに合わせて小物を自動選択
+function autoSelectProps() {
+  if (!state.theme) {
+    alert('先にテーマを選んでください😊');
+    return;
+  }
+  const suggested = getThemeProps(state.theme);
+  
+  // 全選択解除
+  document.querySelectorAll('.prop-chip').forEach(c => c.classList.remove('active'));
+  state.props = [];
+
+  if (suggested.length === 0) {
+    state.props = ['minimal props only'];
+    document.querySelectorAll('.prop-chip[data-val="minimal props only"]').forEach(c => c.classList.add('active'));
+  } else {
+    // 最初の1〜2個を選択
+    const toSelect = suggested.slice(0, 2);
+    toSelect.forEach(val => {
+      state.props.push(val);
+      document.querySelectorAll(`.prop-chip[data-val="${val}"]`).forEach(c => c.classList.add('active'));
+    });
+  }
+
+  // おすすめタブに切り替えて表示
+  updatePropSuggestions(state.theme);
+  const hintEl = document.getElementById('prop-hint');
+  if (hintEl) hintEl.style.display = 'block';
+}
 
 // 小物タブ切り替え
 function switchPropTab(tabId) {
@@ -1326,7 +1497,7 @@ document.getElementById('prop-amount-group').querySelectorAll('.chip').forEach(c
   });
 });
 setupSingle('bg-group', 'bg');
-setupMulti('prop-group', 'props');
+// prop-groupはprop-chipで管理（setupMulti不要）
 setupSingle('light-group', 'light');
 
 // 画面遷移
