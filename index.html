@@ -131,7 +131,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:var(--hint)}
     <div class="gcard" data-type="milestone card" data-sizes='["5x7 inch","8x10 inch","A4","A5"]' data-angles='["hand","flatlay","lean","twine1","twine2","phone"]'>
       <span class="gcard-ico">📸</span><div class="gcard-name">マイルストーンカード</div><div class="gcard-sub">Milestone Card</div>
     </div>
-    <div class="gcard" data-type="thank you gift tag" data-sizes='["2x3.5 inch","3x3 inch","2x2 inch"]' data-angles='["giftbag","box","twine1","twine2","flatlay"]'>
+    <div class="gcard" data-type="thank you gift tag" data-sizes='["2x3.5 inch","3x3 inch","2x2 inch"]' data-angles='["tag_gift_ribbon","giftbag","box","tag_basket","tag_envelope","twine1","twine2","flatlay"]'>
       <span class="gcard-ico">🏷️</span><div class="gcard-name">サンキュータグ</div><div class="gcard-sub">Thank You Tag</div>
     </div>
     <div class="gcard" data-type="gift tag" data-sizes='["2x3.5 inch","3x3 inch","2x2 inch"]' data-angles='["giftbag","box","twine1","flatlay"]'>
@@ -140,11 +140,11 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:var(--hint)}
     <div class="gcard" data-type="welcome sign" data-sizes='["18x24 inch","24x36 inch","16x20 inch","12x18 inch"]' data-angles='["easel","lean-wall","wall-hang"]' data-hint="ウェルカムサインは白背景にデザインをはめ込んでから添付すると、より忠実に再現されます">
       <span class="gcard-ico">🪧</span><div class="gcard-name">ウェルカムサイン</div><div class="gcard-sub">Welcome Sign</div>
     </div>
-    <div class="gcard" data-type="party banner" data-sizes='["5x7 inch","8x10 inch","18x24 inch"]' data-angles='["wall-hang","lean-wall","easel"]' data-hint="バナーは白背景にデザインをはめ込んでから添付すると、より忠実に再現されます">
-      <span class="gcard-ico">🎉</span><div class="gcard-name">パーティーバナー</div><div class="gcard-sub">Party Banner</div>
+    <div class="gcard" data-type="party banner garland" data-sizes='["5x7 inch per flag","A4 per flag","その他"]' data-angles='["banner_garland","banner_party","banner_outdoor","banner_fireplace","flatlay"]' data-hint="バナーは白背景にデザインをはめ込んでから添付すると、より忠実に再現されます">
+      <span class="gcard-ico">🎉</span><div class="gcard-name">パーティーバナー・ガーランド</div><div class="gcard-sub">Party Banner Garland</div>
     </div>
-    <div class="gcard" data-type="cupcake topper" data-sizes='["2 inch 丸型","2.5 inch 丸型"]' data-angles='["flatlay","hand"]'>
-      <span class="gcard-ico">🧁</span><div class="gcard-name">カップケーキトッパー</div><div class="gcard-sub">Cupcake Topper</div>
+    <div class="gcard" data-type="cake topper" data-sizes='["2 inch 丸型","2.5 inch 丸型","その他"]' data-angles='["cake_white","cake_pink","cake_nude","cake_drip","cake_green","cake_flatlay"]' data-hint="ケーキトッパーはデザインをそのままケーキに刺した状態でモックアップを生成します">
+      <span class="gcard-ico">🎂</span><div class="gcard-name">ケーキトッパー</div><div class="gcard-sub">Cake Topper</div>
     </div>
     <div class="gcard" data-type="table sign" data-sizes='["5x7 inch","4x6 inch","8x10 inch"]' data-angles='["easel","lean","lean-wall","flatlay"]'>
       <span class="gcard-ico">🪑</span><div class="gcard-name">テーブルサイン</div><div class="gcard-sub">Table Sign</div>
@@ -456,6 +456,22 @@ const ANGLES = {
   box:         {label:'クラフトボックス', val:"placed on a neatly kraft paper wrapped gift box slightly angled tied with twine"},
   twine1:      {label:'麻紐クリップ（1枚）', val:"hanging from a natural twine string using small wooden clothespin clips, displayed naturally, twine stretched horizontally, card hanging down in portrait orientation"},
   twine2:      {label:'麻紐クリップ（2枚）', val:"two cards displayed side by side hanging from natural twine with small wooden clips, slightly overlapping, relaxed lifestyle composition"},
+  // ケーキトッパー用
+  cake_white:  {label:'白いケーキに刺す',     val:"inserted into a beautiful white frosted layered cake on a white cake stand, the topper standing upright clearly visible, soft studio lighting, minimal clean background"},
+  cake_pink:   {label:'ピンクケーキに刺す',   val:"inserted into a soft pink buttercream frosted layered cake on an elegant white cake stand, the topper standing upright clearly visible, pastel feminine styling"},
+  cake_nude:   {label:'ヌードケーキに刺す',   val:"inserted into a rustic naked cake with exposed layers cream filling and fresh florals on a wooden cake stand, the topper standing upright clearly visible, warm natural lighting"},
+  cake_drip:   {label:'ドリップケーキに刺す', val:"inserted into a chocolate drip cake on a dark slate stand, the topper standing upright clearly visible, dramatic moody lighting"},
+  cake_green:  {label:'グリーンケーキに刺す', val:"inserted into a sage green buttercream frosted layered cake on a white cake stand, the topper standing upright clearly visible, soft natural light"},
+  cake_flatlay:{label:'フラットレイ（ケーキ周り）', val:"flat lay top-down shot of multiple toppers arranged in a neat row on a soft linen surface, with scattered confetti and small florals around them"},
+  // バナー用
+  banner_garland:  {label:'ガーランド（屋内）',   val:"all flag pieces strung together in order on a natural twine string forming a complete garland banner, hung horizontally across a soft neutral indoor wall, flags evenly spaced and slightly drooping naturally, full banner visible in frame"},
+  banner_party:    {label:'パーティー会場',       val:"all flag pieces strung together as a complete garland banner hung across a styled party backdrop, colorful balloons and streamers softly blurred in background, flags clearly readable"},
+  banner_outdoor:  {label:'屋外ガーランド',       val:"complete banner garland hung between two wooden poles outdoors in a garden or backyard setting, natural sunlight, greenery softly blurred in background, all flags visible"},
+  banner_fireplace:{label:'マントルピース',        val:"complete banner garland draped across a white painted wooden mantelpiece, cozy home interior background, flags hanging down evenly spaced"},
+  // タグ用
+  tag_gift_ribbon: {label:'リボン付きプレゼント', val:"tied with a thin satin ribbon to a beautifully wrapped gift box in kraft paper, tag hanging clearly visible from the bow, soft natural light, minimal clean background"},
+  tag_basket:      {label:'ギフトバスケット',     val:"attached to a woven wicker gift basket filled with tissue paper and small gifts, tag clearly visible hanging from the handle, warm natural lighting"},
+  tag_envelope:    {label:'封筒に添えて',         val:"placed beside a cream envelope on a soft linen surface, flat lay composition, tag and envelope both clearly visible, minimal styling"},
 };
 
 // テーマ別おすすめ小物
